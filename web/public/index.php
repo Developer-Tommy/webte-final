@@ -55,11 +55,11 @@ if (isset($_SESSION['r'])) {
 <section>
     <hr>
     <h2>Choose visualisation:</h2>
-    <div id="chart"></div>
+    <div style="display: none" id="chart"></div>
     <div class="controls">
-        <input type="checkbox" id="graph" value="graph" onclick="validate()" checked/>
+        <input type="checkbox" id="graph" value="graph" onclick="validate()"/>
         <label>Graph</label> <br>
-        <input type="checkbox" id="anim" value="anim" onclick="validate()" checked/>
+        <input type="checkbox" id="anim" value="anim" onclick="validate()"/>
         <label>Animation</label> <br>
     </div>
 </section>
@@ -75,7 +75,9 @@ if (isset($_SESSION['r'])) {
             alert("Wrong input! Obstacle is too deep or high.")
             window.location.href = "index.php"
         }
-        else form1.submit()
+        else {
+            form1.submit()
+        }
 
     })
 
@@ -107,6 +109,15 @@ if (isset($_SESSION['r'])) {
         },
         xaxis: {
             categories: [],
+            tickAmount: 5,
+            overwriteCategories: [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+            ],
             title: {
                 text: "Time (s)"
             },
@@ -144,48 +155,53 @@ if (isset($_SESSION['r'])) {
     var chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
 
-    const sin = [];
-    const cos = [];
-    let amplitude = 1;
-    this.addEventListener('update-amplitude', (event) => {
-        amplitude = event.detail.value
-    })
+    const car = [];
+    const wheel = [];
 
-    const evtSource = new EventSource("https://iolab.sk/evaluation/sse/sse.php")
+    let arr = [];
+    arr = '<?php echo json_encode($tmp_r)?>';
+
+    arr = JSON.parse(arr);
+
+    if (arr.length)
+        update()
 
     function update () {
-        const data = JSON.parse(event.data)
-        sin.push(amplitude * data.y1)
-        cos.push(amplitude * data.y2)
+        let item_array = [];
+        arr.shift()
+        arr.shift()
+
+        arr.forEach((item) => {
+            item = item.trim()
+            item_array = item.split(" ");
+            const results = item_array.filter(element => {
+                return element !== '';
+            });
+            car.push(results[0])
+            wheel.push(results[1])
+        })
+
         chart.updateSeries([
             {
-                name: "Sin(x)",
-                data: sin
+                name: "Car(x1)",
+                data: car
             },
             {
-                name: "Cos(x)",
-                data: cos
+                name: "Wheel(x3)",
+                data: wheel
             }
         ])
         validate()
     }
 
     function validate(){
-        if (document.getElementById('chart').checked){
-            chart.style.display = block;
+        if (document.getElementById('graph').checked){
+            document.querySelector("#chart").style.display = "block";
         }else{
-            chart.style.display = none;
-        }
-        if (document.getElementById('anim').checked){
-            chart.style.display = block;
-        }else{
-            chart.style.display = none;
+            document.querySelector("#chart").style.display = "none";
         }
     }
-    evtSource.addEventListener("message", update)
-    document.getElementById('stop').addEventListener('click', function () {
-        evtSource.removeEventListener('message', update)
-    })
+
 </script>
 </body>
 </html>
