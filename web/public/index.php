@@ -121,6 +121,7 @@ if (isset($_SESSION['r'])) {
         lang = $(this).val();
         document.cookie = "lang="+lang;
         switchLang(lang);
+        loadGraph();
     });
 
     function switchLang (lang){
@@ -153,95 +154,109 @@ if (isset($_SESSION['r'])) {
 
     })
 
-    var options = {
-        chart: {
-            height: 400,
-            type: "line",
-            stacked: false
-        },
-        dataLabels: {
-            enabled: false
-        },
-        colors: ["#FF1654", "#247BA0"],
-        series: [{
-            data: [],
-            data: [],
-        }],
-        noData: {
-            text: 'Loading...'
-        },
-        stroke: {
-            curve: 'smooth',
-            width: [4, 4]
-        },
-        plotOptions: {
-            bar: {
-                columnWidth: "20%"
-            }
-        },
-        xaxis: {
-            categories: [],
-            tickAmount: 5,
-            overwriteCategories: [
-                "0",
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-            ],
-            title: {
-                text: "Time (s)"
+    loadGraph();
+
+    function loadGraph() {
+        let carLabel, wheelLabel, loadingLabel, timeLabel, obstacleLabel;
+
+        if (lang === "en") {
+            carLabel = "Car(x1)";
+            wheelLabel = "Wheel(x3)";
+            loadingLabel = "Loading...";
+            timeLabel = "Time(s)";
+            obstacleLabel = "Obstacle height(m)";
+        }
+        if (lang === "sk") {
+            carLabel = "Auto(x1)";
+            wheelLabel = "Koleso(x3)";
+            loadingLabel = "Načítavanie...";
+            timeLabel = "Čas(s)";
+            obstacleLabel = "Výška prekážky(m)";
+        }
+
+        var options = {
+            chart: {
+                height: 400,
+                type: "line",
+                stacked: false
             },
-            labels: {
-                rotate: 0,
-                hideOverlappingLabels: true,
-            }
-        },
-        yaxis: [
-            {
-                axisTicks: {
-                    show: true
-                },
-                axisBorder: {
-                    show: true,
-                },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#FF1654", "#247BA0"],
+            series: [{
+                data: [],
+                data: [],
+            }],
+            noData: {
+                text: loadingLabel
+            },
+            stroke: {
+                curve: 'smooth',
+                width: [4, 4]
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: "20%"
+                }
+            },
+            xaxis: {
+                categories: [],
+                tickAmount: 5,
+                overwriteCategories: [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                ],
                 title: {
-                    text: "Obstacle"
+                    text: timeLabel
                 },
+                labels: {
+                    rotate: 0,
+                    hideOverlappingLabels: true,
+                }
+            },
+            yaxis: [
+                {
+                    axisTicks: {
+                        show: true
+                    },
+                    axisBorder: {
+                        show: true,
+                    },
+                    title: {
+                        text: obstacleLabel
+                    },
+                }
+            ],
+            tooltip: {
+                shared: false,
+                intersect: true,
+                x: {
+                    show: false
+                }
+            },
+            legend: {
+                horizontalAlign: "left",
+                offsetX: 100
             }
-        ],
-        tooltip: {
-            shared: false,
-            intersect: true,
-            x: {
-                show: false
-            }
-        },
-        legend: {
-            horizontalAlign: "left",
-            offsetX: 100
-        }
-    };
+        };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
 
-    const car = [];
-    const wheel = [];
+        const car = [];
+        const wheel = [];
 
-    let arr = [];
-    arr = '<?php echo json_encode($tmp_r)?>';
 
-    arr = JSON.parse(arr);
+        let arr = '<?php echo json_encode($tmp_r)?>';
 
-    if(arr) {
-        if (arr.length) {
-            update()
-        }
-    }
+        arr = JSON.parse(arr);
 
-    function update () {
+
         let item_array = [];
         arr.shift()
         arr.shift()
@@ -258,11 +273,11 @@ if (isset($_SESSION['r'])) {
 
         chart.updateSeries([
             {
-                name: "Car(x1)",
+                name: carLabel,
                 data: car
             },
             {
-                name: "Wheel(x3)",
+                name: wheelLabel,
                 data: wheel
             }
         ])
