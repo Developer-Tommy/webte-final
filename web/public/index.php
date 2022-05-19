@@ -12,17 +12,28 @@ if (isset($_SESSION['r'])) {
 }
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
     <title>CAS API</title>
 </head>
 <body>
 <section>
+    <form>
+        <label for="lang-switch">
+            <span lang="sk">Jazyk</span>
+            <span lang="en">Language</span>
+        </label>
+        <select id="lang-switch">
+            <option value="en">English</option>
+            <option value="sk">Slovensky</option>
+        </select>
+    </form>
     <div>
         <hr>
         <h2>Octave CLI</h2>
@@ -31,39 +42,100 @@ if (isset($_SESSION['r'])) {
                 <label for="octave">Octave CLI: </label>
                 <textarea name="octave" id="octave" class="area-box" style="min-width: 300px; height: 300px"></textarea>
             </div>
-            <input class="sub" type="submit" value="Show">
+            <input lang="en" class="sub" type="submit" value="Show">
+            <input lang="sk" class="sub" type="submit" value="Zobraz">
+
         </form>
         <hr>
-        <h2>Output</h2>
+        <h2 lang="en">Output</h2>
+        <h2 lang="sk">Výstup</h2>
         <p><?php var_dump($tmp)?></p>
     </div>
     <div>
         <hr>
-        <h2>Enter size of obstacle</h2>
+        <h2 lang="en">Enter size of obstacle</h2>
+        <h2 lang="sk">Zadaj veľkosť prekážky</h2>
         <form id="r-form" action="server.php" class="inventors-form" method="post" enctype="multipart/form-data">
             <div class="box">
-                <label for="r">Input r: </label>
+                <label lang="en" for="r">Input r: </label>
+                <label lang="sk" for="r">Vstup r: </label>
                 <input type="number" step="0.01" name="r" id="r" required min="-0.1" max="0.1">
             </div>
-            <input class="sub" type="submit" value="Show" id="submit">
+            <input lang="en" class="sub" type="submit" value="Show" id="submit">
+            <input lang="sk" class="sub" type="submit" value="Zobraz" id="submit">
+
         </form>
         <hr>
-        <h2>Output</h2>
+        <h2 lang="en">Output</h2>
+        <h2 lang="sk">Výstup</h2>
         <p><?php var_dump($tmp_r)?></p>
     </div>
 </section>
 <section>
     <hr>
-    <h2>Choose visualisation:</h2>
+    <h2 lang="en">Choose visualisation:</h2>
+    <h2 lang="sk">Vyber spôsob vizualizácie:</h2>
     <div style="display: none" id="chart"></div>
     <div class="controls">
         <input type="checkbox" id="graph" value="graph" onclick="validate()"/>
-        <label>Graph</label> <br>
+        <label lang="en" for="graph">Graph</label>
+        <label lang="sk" for="graph">Graf</label>
+        <br>
         <input type="checkbox" id="anim" value="anim" onclick="validate()"/>
-        <label>Animation</label> <br>
+        <label for="anim" lang="en">Animation</label>
+        <label for="anim" lang="sk">Animácia</label>
+        <br>
     </div>
 </section>
 <script>
+    function getCookie(cname) {
+        //https://www.w3schools.com/js/js_cookies.asp
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    let langSwitch = document.getElementById("lang-switch");
+    let lang = getCookie("lang");
+    if (lang === "") {
+        langSwitch.value = "sk";
+        $('[lang="sk"]').show();
+        $('[lang="en"]').hide();
+    }
+    else {
+        langSwitch.value = lang;
+        switchLang(lang);
+    }
+
+    $('#lang-switch').change(function () {
+        lang = $(this).val();
+        document.cookie = "lang="+lang;
+        switchLang(lang);
+    });
+
+    function switchLang (lang){
+        switch (lang) {
+            case 'en':
+                $('[lang="en"]').show();
+                $('[lang="sk"]').hide();
+                break;
+            case 'sk':
+                $('[lang="sk"]').show();
+                $('[lang="en"]').hide();
+                break;
+        }
+    }
+
     const submit = document.getElementById("submit")
     const form1 = document.getElementById("r-form")
     const form2 = document.getElementById("octave-form")
@@ -163,8 +235,11 @@ if (isset($_SESSION['r'])) {
 
     arr = JSON.parse(arr);
 
-    if (arr.length)
-        update()
+    if(arr) {
+        if (arr.length) {
+            update()
+        }
+    }
 
     function update () {
         let item_array = [];
