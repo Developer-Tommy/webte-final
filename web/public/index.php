@@ -1,3 +1,16 @@
+<?php
+include "server.php";
+$tmp = null;
+$tmp_r = null;
+if (isset($_SESSION['out'])) {
+    $tmp = $_SESSION['out'];
+    unset($_SESSION['out']);
+}
+if (isset($_SESSION['r'])) {
+    $tmp_r = $_SESSION['r'];
+    unset($_SESSION['r']);
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,10 +28,13 @@
         <form action="server.php" id="octave-form" class="inventors-form" method="post" enctype="multipart/form-data">
             <div class="box">
                 <label for="octave">Octave CLI: </label>
-                <textarea name="octave" id="octave" class="area-box"></textarea>
+                <textarea name="octave" id="octave" class="area-box" style="min-width: 300px; height: 300px"></textarea>
             </div>
             <input class="sub" type="submit" value="Show">
         </form>
+        <hr>
+        <h2>Output</h2>
+        <p><?php var_dump($tmp)?></p>
     </div>
     <div>
         <hr>
@@ -30,6 +46,9 @@
             </div>
             <input class="sub" type="submit" value="Show" id="submit">
         </form>
+        <hr>
+        <h2>Output</h2>
+        <p><?php var_dump($tmp_r)?></p>
     </div>
 </section>
 <script>
@@ -37,10 +56,6 @@
     const form1 = document.getElementById("r-form")
     const form2 = document.getElementById("octave-form")
     const value = document.getElementById("r")
-
-    form2.addEventListener('submit', (event) => {
-        event.preventDefault()
-    })
 
     submit.addEventListener('click', (e) => {
         console.log(value.value)
