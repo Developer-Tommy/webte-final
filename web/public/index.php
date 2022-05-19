@@ -18,6 +18,7 @@ if (isset($_SESSION['r'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <title>CAS API</title>
 </head>
 <body>
@@ -51,22 +52,140 @@ if (isset($_SESSION['r'])) {
         <p><?php var_dump($tmp_r)?></p>
     </div>
 </section>
+<section>
+    <hr>
+    <h2>Choose visualisation:</h2>
+    <div id="chart"></div>
+    <div class="controls">
+        <input type="checkbox" id="graph" value="graph" onclick="validate()" checked/>
+        <label>Graph</label> <br>
+        <input type="checkbox" id="anim" value="anim" onclick="validate()" checked/>
+        <label>Animation</label> <br>
+    </div>
+</section>
 <script>
     const submit = document.getElementById("submit")
     const form1 = document.getElementById("r-form")
     const form2 = document.getElementById("octave-form")
     const value = document.getElementById("r")
 
-    submit.addEventListener('click', (e) => {
+    submit.addEventListener('click', () => {
         console.log(value.value)
         if (value.value < -0.1 || value.value > 0.1) {
-            alert("Too big or small")
+            alert("Wrong input! Obstacle is too deep or high.")
             window.location.href = "index.php"
         }
         else form1.submit()
 
     })
 
+    var options = {
+        chart: {
+            height: 400,
+            type: "line",
+            stacked: false
+        },
+        dataLabels: {
+            enabled: false
+        },
+        colors: ["#FF1654", "#247BA0"],
+        series: [{
+            data: [],
+            data: [],
+        }],
+        noData: {
+            text: 'Loading...'
+        },
+        stroke: {
+            curve: 'smooth',
+            width: [4, 4]
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: "20%"
+            }
+        },
+        xaxis: {
+            categories: [],
+            title: {
+                text: "Time (s)"
+            },
+            labels: {
+                rotate: 0,
+                hideOverlappingLabels: true,
+            }
+        },
+        yaxis: [
+            {
+                axisTicks: {
+                    show: true
+                },
+                axisBorder: {
+                    show: true,
+                },
+                title: {
+                    text: "Obstacle"
+                },
+            }
+        ],
+        tooltip: {
+            shared: false,
+            intersect: true,
+            x: {
+                show: false
+            }
+        },
+        legend: {
+            horizontalAlign: "left",
+            offsetX: 100
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+    const sin = [];
+    const cos = [];
+    let amplitude = 1;
+    this.addEventListener('update-amplitude', (event) => {
+        amplitude = event.detail.value
+    })
+
+    const evtSource = new EventSource("https://iolab.sk/evaluation/sse/sse.php")
+
+    function update () {
+        const data = JSON.parse(event.data)
+        sin.push(amplitude * data.y1)
+        cos.push(amplitude * data.y2)
+        chart.updateSeries([
+            {
+                name: "Sin(x)",
+                data: sin
+            },
+            {
+                name: "Cos(x)",
+                data: cos
+            }
+        ])
+        validate()
+    }
+
+    function validate(){
+        if (document.getElementById('chart').checked){
+            chart.style.display = block;
+        }else{
+            chart.style.display = none;
+        }
+        if (document.getElementById('anim').checked){
+            chart.style.display = block;
+        }else{
+            chart.style.display = none;
+        }
+    }
+    evtSource.addEventListener("message", update)
+    document.getElementById('stop').addEventListener('click', function () {
+        evtSource.removeEventListener('message', update)
+    })
 </script>
 </body>
 </html>
