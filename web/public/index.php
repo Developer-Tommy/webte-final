@@ -1,15 +1,33 @@
 <?php
+
 include "server.php";
 $tmp = null;
 $tmp_r = null;
+$result = null;
+
+if (isset($_SESSION['http'])){
+    $page = $_SESSION['http'];
+    if ($page == "index"){
+        unset($_SESSION['output']);
+        unset($_SESSION['active']);
+        echo "unset";
+    }
+}
+
+$_SESSION['http'] = "index";
+
 if (isset($_SESSION['out'])) {
     $tmp = $_SESSION['out'];
     unset($_SESSION['out']);
+    foreach ($tmp as $item) {
+        $result = trim($item);
+    }
 }
-if (isset($_SESSION['r'])) {
-    $tmp_r = $_SESSION['r'];
-    unset($_SESSION['r']);
+if (isset($_SESSION['output'])) {
+    $tmp_r = $_SESSION['output'];
+    unset($_SESSION['output']);
 }
+
 ?>
 <!doctype html>
 <html lang="">
@@ -20,7 +38,13 @@ if (isset($_SESSION['r'])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.min.js"></script>
     <title>CAS API</title>
+    <style>
+        #canvas{
+            border: 2px solid black;
+        }
+    </style>
 </head>
 <body>
 <section>
@@ -40,7 +64,7 @@ if (isset($_SESSION['r'])) {
         <form action="server.php" id="octave-form" class="inventors-form" method="post" enctype="multipart/form-data">
             <div class="box">
                 <label for="octave">Octave CLI: </label>
-                <textarea name="octave" id="octave" class="area-box" style="min-width: 300px; height: 300px"></textarea>
+                <textarea name="octave" id="octave" class="area-box" style="min-width: 500px; height: 150px"></textarea>
             </div>
             <input lang="en" class="sub" type="submit" value="Show">
             <input lang="sk" class="sub" type="submit" value="Zobraz">
@@ -49,7 +73,7 @@ if (isset($_SESSION['r'])) {
         <hr>
         <h2 lang="en">Output</h2>
         <h2 lang="sk">Výstup</h2>
-        <p><?php var_dump($tmp)?></p>
+        <p><?php echo $result?></p>
     </div>
     <div>
         <hr>
@@ -65,29 +89,58 @@ if (isset($_SESSION['r'])) {
             <input lang="sk" class="sub" type="submit" value="Zobraz" id="submit">
 
         </form>
-        <hr>
-        <h2 lang="en">Output</h2>
-        <h2 lang="sk">Výstup</h2>
-        <p><?php var_dump($tmp_r)?></p>
     </div>
 </section>
 <section>
     <hr>
     <h2 lang="en">Choose visualisation:</h2>
     <h2 lang="sk">Vyber spôsob vizualizácie:</h2>
-    <div style="display: none" id="chart"></div>
+
     <div class="controls">
-        <input type="checkbox" id="graph" value="graph" onclick="validate()"/>
+        <input type="checkbox" id="graph" value="graph" onclick="validate()" checked/>
         <label lang="en" for="graph">Graph</label>
         <label lang="sk" for="graph">Graf</label>
         <br>
-        <input type="checkbox" id="anim" value="anim" onclick="validate()"/>
+        <input type="checkbox" id="anim" value="anim" onclick="validate()" checked/>
         <label for="anim" lang="en">Animation</label>
         <label for="anim" lang="sk">Animácia</label>
         <br>
     </div>
+
+    <div id="g">
+        <h2 lang="sk">Graf</h2>
+        <h2 lang="en">Graph</h2>
+        <div id="chart"></div>
+    </div>
+
+    <div id="a">
+        <h2 lang="sk">Animácia</h2>
+        <h2 lang="en">Animation</h2>
+        <canvas id="canvas"></canvas>
+    </div>
+
 </section>
 <script>
+    var newCanvas = document.querySelector("#canvas");
+    var canvas = new fabric.Canvas(newCanvas, {width: 700, height:400});
+
+    var carAnim = new fabric.Rect({
+        left: 310,
+        top: 90,
+        fill: 'red',
+        width: 80,
+        height: 40
+    });
+
+    var wheelAnim = new fabric.Circle({
+        left: 320,
+        top: 180,
+        radius: 30,
+        fill: 'blue'
+    });
+    canvas.add(carAnim);
+    canvas.add(wheelAnim);
+
     function getCookie(cname) {
         //https://www.w3schools.com/js/js_cookies.asp
         let name = cname + "=";
@@ -141,6 +194,9 @@ if (isset($_SESSION['r'])) {
     const form1 = document.getElementById("r-form")
     const form2 = document.getElementById("octave-form")
     const value = document.getElementById("r")
+    var chart, arr, time;
+    let carLabel, wheelLabel, loadingLabel, timeLabel, obstacleLabel;
+
 
     submit.addEventListener('click', () => {
         console.log(value.value)
@@ -157,7 +213,6 @@ if (isset($_SESSION['r'])) {
     loadGraph();
 
     function loadGraph() {
-        let carLabel, wheelLabel, loadingLabel, timeLabel, obstacleLabel;
 
         if (lang === "en") {
             carLabel = "Car(x1)";
@@ -220,7 +275,9 @@ if (isset($_SESSION['r'])) {
                 }
             },
             yaxis: [
+
                 {
+                    tickAmount: 5,
                     axisTicks: {
                         show: true
                     },
@@ -245,50 +302,82 @@ if (isset($_SESSION['r'])) {
             }
         };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+
+        arr = '<?php echo json_encode($tmp_r)?>';
+        arr = JSON.parse(arr);
+
+        if (arr !== null)
+            update()
+    }
+
+    function update() {
 
         const car = [];
         const wheel = [];
-
-
-        let arr = '<?php echo json_encode($tmp_r)?>';
-
-        arr = JSON.parse(arr);
-
 
         let item_array = [];
         arr.shift()
         arr.shift()
 
-        arr.forEach((item) => {
-            item = item.trim()
-            item_array = item.split(" ");
-            const results = item_array.filter(element => {
-                return element !== '';
-            });
-            car.push(results[0])
-            wheel.push(results[1])
-        })
+        document.addEventListener("DOMContentLoaded", function () {
+            let counter = 0
+            arr.forEach((item) => {
+                time = setTimeout(function () {
+                    item = item.trim()
+                    item_array = item.split(" ");
+                    const results = item_array.filter(element => {
+                        return element !== '';
+                    });
+                    car.push(results[0])
+                    wheel.push(results[1])
 
-        chart.updateSeries([
-            {
-                name: carLabel,
-                data: car
-            },
-            {
-                name: wheelLabel,
-                data: wheel
-            }
-        ])
+                    let carAdd = parseFloat(results[0]) * 100;
+                    let wheelAdd = parseFloat(results[0]) * 100;
+
+                    let carStr = "+="+carAdd.toString()
+                    let wheelStr = "+="+wheelAdd.toString()
+
+                    chart.updateSeries([
+                        {
+                            name: carLabel,
+                            data: car
+                        },
+                        {
+                            name: wheelLabel,
+                            data: wheel
+                        }
+                    ])
+
+                    console.log(carStr)
+
+                    carAnim.animate('top', carStr, { onChange: canvas.renderAll.bind(canvas) });
+                    wheelAnim.animate('top', wheelStr, { onChange: canvas.renderAll.bind(canvas) });
+
+
+                }, 50 * counter)
+
+
+                counter++
+            })
+
+            clearTimeout(time)
+
+        });
         validate()
     }
 
     function validate(){
         if (document.getElementById('graph').checked){
-            document.querySelector("#chart").style.display = "block";
+            document.querySelector("#g").style.display = "block";
         }else{
-            document.querySelector("#chart").style.display = "none";
+            document.querySelector("#g").style.display = "none";
+        }
+        if (document.getElementById('anim').checked){
+            document.querySelector("#a").style.display = "block";
+        }else{
+            document.querySelector("#a").style.display = "none";
         }
     }
 

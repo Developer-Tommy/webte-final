@@ -8,7 +8,7 @@ use App\Model\Person;
 include '../app/vendor/autoload.php';
 
 $personController = new PersonController();
-$output = null;
+$_SESSION['http'] = "server";
 
 if (isset($_POST['octave'])){
     $script = fopen("script.m", "w");
@@ -23,37 +23,47 @@ if (isset($_POST['octave'])){
 }
 
 if (isset($_POST['r'])){
-    $script = fopen("script2.m", "w");
-    fwrite($script, "pkg load control;");
     $r = $_POST['r'];
-    $val = "m1 = 2500; m2 = 320;k1 = 80000; k2 = 500000;b1 = 350; b2 = 15020;A=[0 1 0 0;-(b1*b2)/(m1*m2) 0 ((b1/m1)*((b1/m1)+(b1/m2)+(b2/m2)))-(k1/m1) -(b1/m1);b2/m2 0 -((b1/m1)+(b1/m2)+(b2/m2)) 1;k2/m2 0 -((k1/m1)+(k1/m2)+(k2/m2)) 0];B=[0 0;1/m1 (b1*b2)/(m1*m2);0 -(b2/m2);(1/m1)+(1/m2) -(k2/m2)];C=[0 0 1 0]; D=[0 0];Aa = [[A,[0 0 0 0]'];[C, 0]];Ba = [B;[0 0]];Ca = [C,0]; Da = D;K = [0 2.3e6 5e8 0 8e6];sys = ss(Aa-Ba(:,1)*K,Ba,Ca,Da);t = 0:0.01:5;r =$r;initX1=0; initX1d=0;initX2=0; initX2d=0;[y,t,x]=lsim(sys*[0;1],r*ones(size(t)),t,[initX1;initX1d;initX2;initX2d;0]);[t x(:,1) x(:,3)]";
-    fwrite($script, $val);
-    $octave = "octave-cli --eval script2";
-    exec($octave, $output);
-    $_SESSION['r'] = $output;
+    if (isset($_SESSION['active'])){
+        $output2 = null;
+        $newVal = $_SESSION['active'];
+        $newVal = trim($newVal[2]);
+        $newVal = str_replace("   ", ";",$newVal);
+        $newVal = str_replace("  ", ";",$newVal);
+        $script = fopen("script2.m", "w");
+        $script2 = fopen("script3.m", "w");
+        fwrite($script, "pkg load control;");
+        fwrite($script2, "pkg load control;");
+        $val = "m1 = 2500; m2 = 320;k1 = 80000; k2 = 500000;b1 = 350; b2 = 15020;A=[0 1 0 0;-(b1*b2)/(m1*m2) 0 ((b1/m1)*((b1/m1)+(b1/m2)+(b2/m2)))-(k1/m1) -(b1/m1);b2/m2 0 -((b1/m1)+(b1/m2)+(b2/m2)) 1;k2/m2 0 -((k1/m1)+(k1/m2)+(k2/m2)) 0];B=[0 0;1/m1 (b1*b2)/(m1*m2);0 -(b2/m2);(1/m1)+(1/m2) -(k2/m2)];C=[0 0 1 0]; D=[0 0];Aa = [[A,[0 0 0 0]'];[C, 0]];Ba = [B;[0 0]];Ca = [C,0]; Da = D;K = [0 2.3e6 5e8 0 8e6];sys = ss(Aa-Ba(:,1)*K,Ba,Ca,Da);t = 0:0.01:5;r =$r;[y,t,x]=lsim(sys*[0;1],r*ones(size(t)),t,[$newVal]);[x(:,1) x(:,3)]";
+        $val2 = "m1 = 2500; m2 = 320;k1 = 80000; k2 = 500000;b1 = 350; b2 = 15020;A=[0 1 0 0;-(b1*b2)/(m1*m2) 0 ((b1/m1)*((b1/m1)+(b1/m2)+(b2/m2)))-(k1/m1) -(b1/m1);b2/m2 0 -((b1/m1)+(b1/m2)+(b2/m2)) 1;k2/m2 0 -((k1/m1)+(k1/m2)+(k2/m2)) 0];B=[0 0;1/m1 (b1*b2)/(m1*m2);0 -(b2/m2);(1/m1)+(1/m2) -(k2/m2)];C=[0 0 1 0]; D=[0 0];Aa = [[A,[0 0 0 0]'];[C, 0]];Ba = [B;[0 0]];Ca = [C,0]; Da = D;K = [0 2.3e6 5e8 0 8e6];sys = ss(Aa-Ba(:,1)*K,Ba,Ca,Da);t = 0:0.01:5;r =$r;[y,t,x]=lsim(sys*[0;1],r*ones(size(t)),t,[$newVal]);[x(size(x,1),:)]";
+        fwrite($script, $val);
+        fwrite($script2, $val2);
+        $octave = "octave-cli --eval script2";
+        $octave2 = "octave-cli --eval script3";
+        exec($octave, $output);
+        exec($octave2, $output2);
+        $_SESSION['output'] = $output;
+        $_SESSION['active'] = $output2;
+    }
+    else{
+        $output = $output2 = null;
+        $script = fopen("script2.m", "w");
+        $script2 = fopen("script3.m", "w");
+        fwrite($script, "pkg load control;");
+        fwrite($script2, "pkg load control;");
+        $val = "m1 = 2500; m2 = 320;k1 = 80000; k2 = 500000;b1 = 350; b2 = 15020;A=[0 1 0 0;-(b1*b2)/(m1*m2) 0 ((b1/m1)*((b1/m1)+(b1/m2)+(b2/m2)))-(k1/m1) -(b1/m1);b2/m2 0 -((b1/m1)+(b1/m2)+(b2/m2)) 1;k2/m2 0 -((k1/m1)+(k1/m2)+(k2/m2)) 0];B=[0 0;1/m1 (b1*b2)/(m1*m2);0 -(b2/m2);(1/m1)+(1/m2) -(k2/m2)];C=[0 0 1 0]; D=[0 0];Aa = [[A,[0 0 0 0]'];[C, 0]];Ba = [B;[0 0]];Ca = [C,0]; Da = D;K = [0 2.3e6 5e8 0 8e6];sys = ss(Aa-Ba(:,1)*K,Ba,Ca,Da);t = 0:0.01:5;r =$r;initX1=0; initX1d=0;initX2=0; initX2d=0;[y,t,x]=lsim(sys*[0;1],r*ones(size(t)),t,[initX1;initX1d;initX2;initX2d;0]);[x(:,1) x(:,3)]";
+        $val2 = "m1 = 2500; m2 = 320;k1 = 80000; k2 = 500000;b1 = 350; b2 = 15020;A=[0 1 0 0;-(b1*b2)/(m1*m2) 0 ((b1/m1)*((b1/m1)+(b1/m2)+(b2/m2)))-(k1/m1) -(b1/m1);b2/m2 0 -((b1/m1)+(b1/m2)+(b2/m2)) 1;k2/m2 0 -((k1/m1)+(k1/m2)+(k2/m2)) 0];B=[0 0;1/m1 (b1*b2)/(m1*m2);0 -(b2/m2);(1/m1)+(1/m2) -(k2/m2)];C=[0 0 1 0]; D=[0 0];Aa = [[A,[0 0 0 0]'];[C, 0]];Ba = [B;[0 0]];Ca = [C,0]; Da = D;K = [0 2.3e6 5e8 0 8e6];sys = ss(Aa-Ba(:,1)*K,Ba,Ca,Da);t = 0:0.01:5;r =$r;initX1=0; initX1d=0;initX2=0; initX2d=0;[y,t,x]=lsim(sys*[0;1],r*ones(size(t)),t,[initX1;initX1d;initX2;initX2d;0]);[x(size(x,1),:)]";
+        fwrite($script, $val);
+        fwrite($script2, $val2);
+        $octave = "octave-cli --eval script2";
+        $octave2 = "octave-cli --eval script3";
+        exec($octave, $output);
+        exec($octave2, $output2);
+        $_SESSION['output'] = $output;
+        $_SESSION['active'] = $output2;
+
+    }
     header("Location:index.php");
 
-}
-
-
-if(isset($_POST['name'])){
-
-    if(isset($_POST['id']) && $_POST['id']){
-        $person = $personController->getPerson($_POST['id']);
-        $person->setName($_POST['name']);
-        $person->setSurname($_POST['surname']);
-        $personController->updatePerson($person);
-    }else{
-
-        $person = new Person();
-        $person->setName($_POST['name']);
-        $person->setSurname($_POST['surname']);
-
-        $id = $personController->insertPerson($person);
-        $person = $personController->getPerson($id);
-    }
-
-}else if(isset($_GET['id'])) {
-    $person = $personController->getPerson($_GET['id']);
 }
 
