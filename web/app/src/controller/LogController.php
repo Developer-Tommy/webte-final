@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Helper\MyPDO;
 use App\Model\Log;
+
 //use MyPDO;
 use PDO;
 
@@ -22,9 +23,9 @@ class LogController
     public function getAllPeople()
     {
         $stmt = $this->conn->prepare("select osoby.*, count(p.placing) as gold_count from osoby left outer join (select * from umiestnenia where placing=1) p on p.person_id = osoby.id group by osoby.id;");
-	$stmt->execute();
+        $stmt->execute();
 
-	$people = $stmt->fetchAll(PDO::FETCH_CLASS, "App\Model\Person");
+        $people = $stmt->fetchAll(PDO::FETCH_CLASS, "App\Model\Person");
 
         foreach ($people as $person) {
             $stmt = $this->conn->prepare("select umiestnenia.*, city from umiestnenia join oh on umiestnenia.oh_id = oh.id where person_id = :personId;");
@@ -58,7 +59,7 @@ class LogController
     {
         $command = $log->getCommand();
         $info = $log->getInfo();
-        $this->db->run("INSERT into logs (`command`, `info`) values (?, ?)", [$command, $info, ]);
+        $this->db->run("INSERT into logs (`command`, `info`) values (?, ?)", [$command, $info,]);
 
 //        echo $info;
 //        try {
@@ -73,7 +74,8 @@ class LogController
 
     }
 
-    public function updatePerson(Log $person){
+    public function updatePerson(Log $person)
+    {
         $stmt = $this->conn->prepare("update osoby set name=:name, surname=:surname where id=:personId");
         $name = $person->getName();
         $id = $person->getId();

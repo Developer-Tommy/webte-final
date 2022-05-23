@@ -5,9 +5,9 @@ $tmp = null;
 $tmp_r = null;
 $result = null;
 
-if (isset($_SESSION['http'])){
+if (isset($_SESSION['http'])) {
     $page = $_SESSION['http'];
-    if ($page == "index"){
+    if ($page == "index") {
         unset($_SESSION['output']);
         unset($_SESSION['active']);
         echo "unset";
@@ -41,7 +41,7 @@ if (isset($_SESSION['output'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.min.js"></script>
     <title>CAS API</title>
     <style>
-        #canvas{
+        #canvas {
             border: 2px solid black;
         }
     </style>
@@ -73,7 +73,7 @@ if (isset($_SESSION['output'])) {
         <hr>
         <h2 lang="en">Output</h2>
         <h2 lang="sk">Výstup</h2>
-        <p><?php echo $result?></p>
+        <p><?php echo $result ?></p>
     </div>
     <div>
         <hr>
@@ -122,19 +122,19 @@ if (isset($_SESSION['output'])) {
 </section>
 <script>
     var newCanvas = document.querySelector("#canvas");
-    var canvas = new fabric.Canvas(newCanvas, {width: 700, height:400});
+    var canvas = new fabric.Canvas(newCanvas, {width: 700, height: 400});
 
     var carAnim = new fabric.Rect({
-        left: 310,
-        top: 90,
+        left: 280,
+        top: 110,
         fill: 'red',
-        width: 80,
+        width: 140,
         height: 40
     });
 
     var wheelAnim = new fabric.Circle({
         left: 320,
-        top: 180,
+        top: 200,
         radius: 30,
         fill: 'blue'
     });
@@ -146,7 +146,7 @@ if (isset($_SESSION['output'])) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) === ' ') {
                 c = c.substring(1);
@@ -164,20 +164,19 @@ if (isset($_SESSION['output'])) {
         langSwitch.value = "sk";
         $('[lang="sk"]').show();
         $('[lang="en"]').hide();
-    }
-    else {
+    } else {
         langSwitch.value = lang;
         switchLang(lang);
     }
 
     $('#lang-switch').change(function () {
         lang = $(this).val();
-        document.cookie = "lang="+lang;
+        document.cookie = "lang=" + lang;
         switchLang(lang);
         loadGraph();
     });
 
-    function switchLang (lang){
+    function switchLang(lang) {
         switch (lang) {
             case 'en':
                 $('[lang="en"]').show();
@@ -203,8 +202,7 @@ if (isset($_SESSION['output'])) {
         if (value.value < -0.1 || value.value > 0.1) {
             alert("Wrong input! Obstacle is too deep or high.")
             window.location.href = "index.php"
-        }
-        else {
+        } else {
             form1.submit()
         }
 
@@ -313,7 +311,6 @@ if (isset($_SESSION['output'])) {
     }
 
     function update() {
-
         const car = [];
         const wheel = [];
 
@@ -323,6 +320,8 @@ if (isset($_SESSION['output'])) {
 
         document.addEventListener("DOMContentLoaded", function () {
             let counter = 0
+            let prevCarVal, prevWheelVal;
+
             arr.forEach((item) => {
                 time = setTimeout(function () {
                     item = item.trim()
@@ -333,11 +332,22 @@ if (isset($_SESSION['output'])) {
                     car.push(results[0])
                     wheel.push(results[1])
 
-                    let carAdd = parseFloat(results[0]) * 100;
-                    let wheelAdd = parseFloat(results[0]) * 100;
+                    let carAdd = Math.abs(parseFloat(results[1]) * 400).toFixed( 4 );
+                    let wheelAdd = Math.abs(parseFloat(results[0]) * 30).toFixed( 4 );
+                    let carStr, wheelStr;
 
-                    let carStr = "+="+carAdd.toString()
-                    let wheelStr = "+="+wheelAdd.toString()
+                    if (prevCarVal !== carAdd)
+                        carStr = results[0].substring(0, 1) === "-" ? "-=" + carAdd.toString() : "+=" + carAdd.toString();
+                    else
+                        carStr = "+=0";
+
+                    if (prevWheelVal !== wheelAdd)
+                        wheelStr = results[1].substring(0, 1) === "-" ? "-=" + wheelAdd.toString() : "+=" + wheelAdd.toString();
+                    else
+                        wheelStr = "+=0";
+
+                    prevCarVal = carAdd;
+                    prevWheelVal = wheelAdd;
 
                     chart.updateSeries([
                         {
@@ -350,37 +360,34 @@ if (isset($_SESSION['output'])) {
                         }
                     ])
 
-                    console.log(carStr)
-
-                    carAnim.animate('top', carStr, { onChange: canvas.renderAll.bind(canvas) });
-                    wheelAnim.animate('top', wheelStr, { onChange: canvas.renderAll.bind(canvas) });
-
-
+                    carAnim.animate('top', carStr, {
+                        onChange: canvas.renderAll.bind(canvas),
+                        duration: 1
+                    });
+                    wheelAnim.animate('top', wheelStr, {
+                        onChange: canvas.renderAll.bind(canvas),
+                        duration: 1
+                    });
                 }, 50 * counter)
-
-
                 counter++
             })
-
             clearTimeout(time)
-
         });
         validate()
     }
 
-    function validate(){
-        if (document.getElementById('graph').checked){
+    function validate() {
+        if (document.getElementById('graph').checked) {
             document.querySelector("#g").style.display = "block";
-        }else{
+        } else {
             document.querySelector("#g").style.display = "none";
         }
-        if (document.getElementById('anim').checked){
+        if (document.getElementById('anim').checked) {
             document.querySelector("#a").style.display = "block";
-        }else{
+        } else {
             document.querySelector("#a").style.display = "none";
         }
     }
-
 </script>
 </body>
 </html>

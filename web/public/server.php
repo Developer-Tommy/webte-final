@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 use App\Controller\LogController;
@@ -10,7 +9,7 @@ include '../app/vendor/autoload.php';
 $logController = new LogController();
 $_SESSION['http'] = "server";
 
-if (isset($_POST['octave'])){
+if (isset($_POST['octave'])) {
     $script = fopen("script.m", "w");
     fwrite($script, "pkg load control;");
     fwrite($script, $_POST['octave']);
@@ -21,8 +20,7 @@ if (isset($_POST['octave'])){
         $log->setCommand($_POST['octave']);
         $log->setInfo("failed");
         $logController->insertLog($log);
-    }
-    else {
+    } else {
         $log = new Log();
         $log->setCommand($val);
         $log->setInfo("successful");
@@ -34,14 +32,14 @@ if (isset($_POST['octave'])){
 
 }
 
-if (isset($_POST['r'])){
+if (isset($_POST['r'])) {
     $r = $_POST['r'];
-    if (isset($_SESSION['active'])){
+    if (isset($_SESSION['active'])) {
         $output2 = null;
         $newVal = $_SESSION['active'];
         $newVal = trim($newVal[2]);
-        $newVal = str_replace("   ", ";",$newVal);
-        $newVal = str_replace("  ", ";",$newVal);
+        $newVal = str_replace("   ", ";", $newVal);
+        $newVal = str_replace("  ", ";", $newVal);
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
         fwrite($script, "pkg load control;");
@@ -59,8 +57,7 @@ if (isset($_POST['r'])){
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        }
-        else {
+        } else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -68,8 +65,7 @@ if (isset($_POST['r'])){
         }
         $_SESSION['output'] = $output;
         $_SESSION['active'] = $output2;
-    }
-    else {
+    } else {
         $output = $output2 = null;
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
@@ -88,8 +84,7 @@ if (isset($_POST['r'])){
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        }
-        else {
+        } else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -100,6 +95,4 @@ if (isset($_POST['r'])){
 
     }
     header("Location:index.php");
-
 }
-
