@@ -2,20 +2,44 @@
 
 namespace App\Model;
 
-class Person
+class Log
 {
     private int $id;
-    private string $name;
-    private string $surname;
-    private string $birth_day;
-    private string $birth_place;
-    private string $birth_country;
-    private ?string $death_day;
-    private ?string $death_place;
-    private ?string $death_country;
+    private string $command;
+    private string $info;
 
-    private ?int $gold_count;
-    private $placements;
+    /**
+     * @return string
+     */
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
+
+    /**
+     * @param string $command
+     */
+    public function setCommand(string $command): void
+    {
+        $this->command = $command;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInfo(): string
+    {
+        return $this->info;
+    }
+
+    /**
+     * @param string $info
+     */
+    public function setInfo(string $info): void
+    {
+        $this->info = $info;
+    }
+
 
     public function getFullName()
     {

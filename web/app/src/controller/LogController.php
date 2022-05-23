@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
-use App\Helper\Database;
-use App\Model\Person;
+use App\Helper\MyPDO;
+use App\Model\Log;
+//use MyPDO;
 use PDO;
 
-class PersonController
+class LogController
 {
 
     private PDO $conn;
+    protected $db;
 
     public function __construct()
     {
-        $this->conn = (new Database())->getConnection();
+        //$this->conn = (new Database())->getConnection();
+        $this->db = MyPDO::instance();
     }
 
     public function getAllPeople()
@@ -51,18 +54,26 @@ class PersonController
         return $person;
     }
 
-    public function insertPerson(Person $person)
+    public function insertLog(Log $log)
     {
-        $stmt = $this->conn->prepare("insert into osoby (name, surname, birth_day, birth_place, birth_country) values (:name, :surname, '2.3.1995', 'Žilina', 'Slovensko')");
-        $name = $person->getName();
-        $surname = $person->getSurname();
-        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-        $stmt->bindParam(":surname", $surname, PDO::PARAM_STR);
-        $stmt->execute();
-        return $this->conn->lastInsertId();
+        $command = $log->getCommand();
+        $info = $log->getInfo();
+        $this->db->run("INSERT into logs (`command`, `info`) values (?, ?)", [$command, $info, ]);
+
+//        echo $info;
+//        try {
+//            $stmt = $this->conn->prepare("insert into logs (`command`, `info`) values (:commad, :info)");
+//            //$stmt->bindParam(":command", $command);
+//            //$stmt->bindParam(":info", $info);
+//            $stmt->execute(array(':command' => $command, ':info' => $info));
+//        }
+//        catch (PDOException $e) {
+//            echo "<br>" . $e->getMessage();
+//        }
+
     }
 
-    public function updatePerson(Person $person){
+    public function updatePerson(Log $person){
         $stmt = $this->conn->prepare("update osoby set name=:name, surname=:surname where id=:personId");
         $name = $person->getName();
         $id = $person->getId();

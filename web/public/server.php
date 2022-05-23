@@ -2,12 +2,12 @@
 
 session_start();
 
-use App\Controller\PersonController;
-use App\Model\Person;
+use App\Controller\LogController;
+use App\Model\Log;
 
 include '../app/vendor/autoload.php';
 
-$personController = new PersonController();
+$logController = new LogController();
 $_SESSION['http'] = "server";
 
 if (isset($_POST['octave'])){
@@ -16,6 +16,18 @@ if (isset($_POST['octave'])){
     fwrite($script, $_POST['octave']);
     $val = "octave-cli --eval script";
     exec($val, $output);
+    if ($output == null) {
+        $log = new Log();
+        $log->setCommand($_POST['octave']);
+        $log->setInfo("failed");
+        $logController->insertLog($log);
+    }
+    else {
+        $log = new Log();
+        $log->setCommand($val);
+        $log->setInfo("successful");
+        $logController->insertLog($log);
+    }
     $_SESSION['out'] = $output;
     fclose($script);
     header("Location:index.php");
@@ -42,10 +54,22 @@ if (isset($_POST['r'])){
         $octave2 = "octave-cli --eval script3";
         exec($octave, $output);
         exec($octave2, $output2);
+        if ($output == null) {
+            $log = new Log();
+            $log->setCommand($val);
+            $log->setInfo("failed");
+            $logController->insertLog($log);
+        }
+        else {
+            $log = new Log();
+            $log->setCommand($val);
+            $log->setInfo("successful");
+            $logController->insertLog($log);
+        }
         $_SESSION['output'] = $output;
         $_SESSION['active'] = $output2;
     }
-    else{
+    else {
         $output = $output2 = null;
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
@@ -59,6 +83,18 @@ if (isset($_POST['r'])){
         $octave2 = "octave-cli --eval script3";
         exec($octave, $output);
         exec($octave2, $output2);
+        if ($output == null) {
+            $log = new Log();
+            $log->setCommand($val);
+            $log->setInfo("failed");
+            $logController->insertLog($log);
+        }
+        else {
+            $log = new Log();
+            $log->setCommand($val);
+            $log->setInfo("successful");
+            $logController->insertLog($log);
+        }
         $_SESSION['output'] = $output;
         $_SESSION['active'] = $output2;
 
