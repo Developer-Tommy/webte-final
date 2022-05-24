@@ -138,10 +138,9 @@ if (isset($_SESSION['output'])) {
         canvas.add(oImg);
     });
 
-    fabric.Image.fromURL('/img/wheel.png', function (oImg) {
+    fabric.Image.fromURL('/img/wheel.png', function (img) {
+        var oImg = img.set({left: 302, top: 165}).scale(0.13);
         canvas.add(oImg);
-        oImg.set({left: 302, top: 165}).scale(0.13);
-        canvas.renderAll();
     });
 
     function getCookie(cname) {
