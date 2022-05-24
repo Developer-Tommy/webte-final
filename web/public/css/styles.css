@@ -6,34 +6,40 @@
     --c4: #778DA9;
     --cream: #fdf9f9;
 }
-body{
+
+body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
     color: var(--darkgrey);
 }
-#mainHeader{
+
+#mainHeader {
     position: -webkit-sticky;
     position: sticky;
-    top:0;
+    top: 0;
     z-index: 2;
     background: var(--c1);
     font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: space-between;
 }
-#mainHeader h1{
+
+#mainHeader h1 {
     color: var(--cream);
     margin-left: 20px;
 }
-#mainHeader form{
+
+#mainHeader form {
     margin: auto 20px auto 0px;
 }
-#mainHeader label{
+
+#mainHeader label {
     color: var(--cream);
     font-family: 'Montserrat', sans-serif;
     font-size: x-large;
 }
-#mainContent{
+
+#mainContent {
     max-width: 1200px;
     margin: 0 auto;
     overflow: auto;
@@ -41,14 +47,16 @@ body{
     padding: 30px 20px;
     text-align: center;
 }
-h2{
+
+h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: x-large;
     color: var(--c2);
     margin: 0;
     padding: 20px;
 }
-input[type=submit]{
+
+input[type=submit] {
     margin: 20px;
     width: 200px;
     padding: 10px;
@@ -57,41 +65,50 @@ input[type=submit]{
     background: var(--c3);
     border: none;
 }
-input[type=submit]:hover{
+
+input[type=submit]:hover {
     background: var(--c2);
 }
-input[type=submit]:active{
+
+input[type=submit]:active {
     background: var(--c4);
 }
-input[type="number"]{
+
+input[type="number"] {
     margin: 20px;
     width: 200px;
     padding: 10px;
 }
-select{
+
+select {
     width: 150px;
     padding: 10px;
 }
-textarea{
+
+textarea {
     min-width: 600px;
     height: 100px;
 }
-.myLabel{
-    display:block;
+
+.myLabel {
+    display: block;
     color: var(--c3);
     font-family: 'Montserrat', sans-serif;
     font-size: x-large;
 }
+
 .canvas-container {
     padding: 0;
     margin: auto;
     display: block;
     position: absolute;
 }
- #canvas {
-     border: 1px solid var(--c2);
- }
- hr{
-     width:80%;
-     margin: 40px auto;
- }
+
+#canvas {
+    border: 1px solid var(--c2);
+}
+
+hr {
+    width: 80%;
+    margin: 40px auto;
+}

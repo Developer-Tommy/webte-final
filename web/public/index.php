@@ -39,106 +39,108 @@ if (isset($_SESSION['output'])) {
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.min.js"></script>
-    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css"/>
     <title>CAS API</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Open+Sans:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Open+Sans:ital,wght@1,300&display=swap"
+          rel="stylesheet">
 </head>
 
 <body>
 
-    <div id="mainHeader">
-        <h1>CAS API</h1>
+<div id="mainHeader">
+    <h1>CAS API</h1>
 
-        <form>
-            <label for="lang-switch">
-                <span lang="sk">JAZYK</span>
-                <span lang="en">LANGUAGE</span>
-            </label>
-            <select id="lang-switch">
-                <option value="en">English</option>
-                <option value="sk">Slovensky</option>
-            </select>
-        </form>
-    </div>
+    <form>
+        <label for="lang-switch">
+            <span lang="sk">JAZYK</span>
+            <span lang="en">LANGUAGE</span>
+        </label>
+        <select id="lang-switch">
+            <option value="en">English</option>
+            <option value="sk">Slovensky</option>
+        </select>
+    </form>
+</div>
 
-    <div id="mainContent">
-        <section>
-            <div>
-                <h2>Octave CLI</h2>
-                <form action="server.php" id="octave-form" class="inventors-form" method="post" enctype="multipart/form-data">
-                    <div class="box">
-                        <label class="myLabel" lang="en" for="octave">Input: </label>
-                        <label class="myLabel" lang="sk" for="octave">Vstup: </label>
-                        <textarea name="octave" id="octave" class="area-box"></textarea>
-                    </div>
-                    <input lang="en" class="sub" type="submit" value="Show">
-                    <input lang="sk" class="sub" type="submit" value="Zobraz">
-                </form>
-                <hr>
-                <h2 lang="en">Output</h2>
-                <h2 lang="sk">Výstup</h2>
-                <p><?php echo $result ?></p>
-            </div>
-            <div>
-                <hr>
-                <h2 lang="en">Enter size of obstacle</h2>
-                <h2 lang="sk">Zadaj veľkosť prekážky</h2>
-                <form id="r-form" action="server.php" class="inventors-form" method="post" enctype="multipart/form-data">
-                    <div class="box">
-                        <label class="myLabel" lang="en" for="r">Input r: </label>
-                        <label class="myLabel" lang="sk" for="r">Vstup r: </label>
-                        <input type="number" step="0.01" name="r" id="r" required min="-0.1" max="0.1">
-                    </div>
-                    <input lang="en" class="sub" type="submit" value="Show" id="submit">
-                    <input lang="sk" class="sub" type="submit" value="Zobraz" id="submit">
-                </form>
-            </div>
-        </section>
-
-        <section>
+<div id="mainContent">
+    <section>
+        <div>
+            <h2>Octave CLI</h2>
+            <form action="server.php" id="octave-form" class="inventors-form" method="post"
+                  enctype="multipart/form-data">
+                <div class="box">
+                    <label class="myLabel" lang="en" for="octave">Input: </label>
+                    <label class="myLabel" lang="sk" for="octave">Vstup: </label>
+                    <textarea name="octave" id="octave" class="area-box"></textarea>
+                </div>
+                <input lang="en" class="sub" type="submit" value="Show">
+                <input lang="sk" class="sub" type="submit" value="Zobraz">
+            </form>
             <hr>
-            <h2 lang="en">Choose visualisation:</h2>
-            <h2 lang="sk">Vyber spôsob vizualizácie:</h2>
-            <div class="controls">
-                <input type="checkbox" id="graph" value="graph" onclick="validate()" checked/>
-                <label lang="en" for="graph">Graph</label>
-                <label lang="sk" for="graph">Graf</label>
-                <br>
-                <input type="checkbox" id="anim" value="anim" onclick="validate()" checked/>
-                <label for="anim" lang="en">Animation</label>
-                <label for="anim" lang="sk">Animácia</label>
-                <br>
-            </div>
+            <h2 lang="en">Output</h2>
+            <h2 lang="sk">Výstup</h2>
+            <p><?php echo $result ?></p>
+        </div>
+        <div>
+            <hr>
+            <h2 lang="en">Enter size of obstacle</h2>
+            <h2 lang="sk">Zadaj veľkosť prekážky</h2>
+            <form id="r-form" action="server.php" class="inventors-form" method="post" enctype="multipart/form-data">
+                <div class="box">
+                    <label class="myLabel" lang="en" for="r">Input r: </label>
+                    <label class="myLabel" lang="sk" for="r">Vstup r: </label>
+                    <input type="number" step="0.01" name="r" id="r" required min="-0.1" max="0.1">
+                </div>
+                <input lang="en" class="sub" type="submit" value="Show" id="submit">
+                <input lang="sk" class="sub" type="submit" value="Zobraz" id="submit">
+            </form>
+        </div>
+    </section>
 
-            <hr id="gLine">
-            <div id="g">
-                <h2 lang="sk">Graf</h2>
-                <h2 lang="en">Graph</h2>
-                <div id="chart"></div>
-            </div>
+    <section>
+        <hr>
+        <h2 lang="en">Choose visualisation:</h2>
+        <h2 lang="sk">Vyber spôsob vizualizácie:</h2>
+        <div class="controls">
+            <input type="checkbox" id="graph" value="graph" onclick="validate()" checked/>
+            <label lang="en" for="graph">Graph</label>
+            <label lang="sk" for="graph">Graf</label>
+            <br>
+            <input type="checkbox" id="anim" value="anim" onclick="validate()" checked/>
+            <label for="anim" lang="en">Animation</label>
+            <label for="anim" lang="sk">Animácia</label>
+            <br>
+        </div>
 
-            <hr id="aLine">
-            <div id="a">
-                <h2 lang="sk">Animácia</h2>
-                <h2 lang="en">Animation</h2>
-                <canvas id="canvas"></canvas>
-            </div>
-        </section>
-    </div>
+        <hr id="gLine">
+        <div id="g">
+            <h2 lang="sk">Graf</h2>
+            <h2 lang="en">Graph</h2>
+            <div id="chart"></div>
+        </div>
+
+        <hr id="aLine">
+        <div id="a">
+            <h2 lang="sk">Animácia</h2>
+            <h2 lang="en">Animation</h2>
+            <canvas id="canvas"></canvas>
+        </div>
+    </section>
+</div>
 <script>
     var newCanvas = document.querySelector("#canvas");
     var canvas = new fabric.Canvas(newCanvas, {width: 700, height: 400});
 
-    fabric.Image.fromURL('/img/car.png', function(img) {
-        var oImg = img.set({ left: 260, top: 35}).scale(0.4);
+    fabric.Image.fromURL('/img/car.png', function (img) {
+        var oImg = img.set({left: 260, top: 35}).scale(0.4);
         canvas.add(oImg);
     });
 
-    fabric.Image.fromURL('/img/wheel.png', function(oImg) {
+    fabric.Image.fromURL('/img/wheel.png', function (oImg) {
         canvas.add(oImg);
-        oImg.set({ left: 302, top: 165}).scale(0.13);
+        oImg.set({left: 302, top: 165}).scale(0.13);
         canvas.renderAll();
     });
 
@@ -333,8 +335,8 @@ if (isset($_SESSION['output'])) {
                     car.push(results[0])
                     wheel.push(results[1])
 
-                    let carAdd = Math.abs(parseFloat(results[1]) * 100).toFixed( 4 );
-                    let wheelAdd = Math.abs(parseFloat(results[0]) * 10).toFixed( 4 );
+                    let carAdd = Math.abs(parseFloat(results[1]) * 100).toFixed(4);
+                    let wheelAdd = Math.abs(parseFloat(results[0]) * 10).toFixed(4);
                     let carStr, wheelStr;
 
                     if (prevCarVal !== carAdd)
