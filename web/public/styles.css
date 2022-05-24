@@ -1,0 +1,97 @@
+:root {
+    --darkgrey: #2a2a2a;
+    --c1: #0D1B2A;
+    --c2: #1B263B;
+    --c3: #415A77;
+    --c4: #778DA9;
+    --cream: #fdf9f9;
+}
+body{
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--darkgrey);
+}
+#mainHeader{
+    position: -webkit-sticky;
+    position: sticky;
+    top:0;
+    z-index: 2;
+    background: var(--c1);
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+#mainHeader h1{
+    color: var(--cream);
+    margin-left: 20px;
+}
+#mainHeader form{
+    margin: auto 20px auto 0px;
+}
+#mainHeader label{
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+}
+#mainContent{
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: auto;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+    padding: 30px 20px;
+    text-align: center;
+}
+h2{
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+    color: var(--c2);
+    margin: 0;
+    padding: 20px;
+}
+input[type=submit]{
+    margin: 20px;
+    width: 200px;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--cream);
+    background: var(--c3);
+    border: none;
+}
+input[type=submit]:hover{
+    background: var(--c2);
+}
+input[type=submit]:active{
+    background: var(--c4);
+}
+input[type="number"]{
+    margin: 20px;
+    width: 200px;
+    padding: 10px;
+}
+select{
+    width: 150px;
+    padding: 10px;
+}
+textarea{
+    min-width: 600px;
+    height: 100px;
+}
+.myLabel{
+    display:block;
+    color: var(--c3);
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+}
+.canvas-container {
+    padding: 0;
+    margin: auto;
+    display: block;
+    position: absolute;
+}
+ #canvas {
+     border: 1px solid var(--c2);
+ }
+ hr{
+     width:80%;
+     margin: 40px auto;
+ }
