@@ -5,21 +5,15 @@ session_start();
 use App\Controller\LogController;
 use App\Model\Log;
 
-//require "PHPMailer-master/src/Exception.php";
-//require 'PHPMailer-master/src/PHPMailer.php';
-//require 'PHPMailer-master/src/SMTP.php';
-//
-//use PHPMailer\PHPMailer\PHPMailer;
-//use PHPMailer\PHPMailer\Exception;
-//use PHPMailer\PHPMailer\SMTP;
-
-require "PHPMailer-master/src/Exception.php";
-require 'PHPMailer-master/src/PHPMailer.php';
-require 'PHPMailer-master/src/SMTP.php';
+//require "../app/PHPMailer/src/Exception.php";
+//require '../app/PHPMailer/src/PHPMailer.php';
+//require '../app/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
+//use PHPMailer\PHPMailer\SMTP;
+
+require_once('libphp-phpmailer/autoload.php');
 
 include '../app/vendor/autoload.php';
 
@@ -116,16 +110,21 @@ if (isset($_POST['r'])){
 
     }
     header("Location:index.php");
+    exit;
 
 }
 
 if (isset($_POST['toCSV'])){
-    $mail = new PHPMailer(true);
+
     $data = $logController->getAllLogs();
     createCSV($data);
-    //sendEmail($mail);
+    header("Location:index.php");
+}
 
-    //header("Location:index.php");
+if (isset($_POST['sendEmail'])){
+
+    header("Location:index.php");
+    sendEmail();
 }
 
 function createCSV($data): void
@@ -138,31 +137,40 @@ function createCSV($data): void
     header('Content-Disposition: attachment; filename=csv_export.csv');
 
     $output = fopen( 'php://output', 'w' );
+    $csv = fopen( 'output.csv', 'w' );
     ob_end_clean();
     fputcsv($output, $header_args);
+    fputcsv($csv, $header_args);
 
     foreach($data AS $data_item){
         fputcsv($output, $data_item);
+        fputcsv($csv, $data_item);
     }
     exit;
 }
 
-function sendEmail($mail): void
+function sendEmail(): void
 {
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        //                      //Enable verbose debug output
+        $mail = new PHPMailer(true);
+        //$mail->SMTPDebug = 2;
+
         $mail->isSMTP();
-        $mail->Host = 'smtp.mailtrap.io';
+        $mail->CharSet = 'UTF-8';
+        $mail->SMTPSecure = "tsl";
+        $mail->Host = 'mail.stuba.sk';  //gmail SMTP server
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = 'd1206f364c9bfd';
-        $mail->Password = '9ed0bed686a866';
+        $mail->Port = 25;
+        $mail->Username = "xknapcok@stuba.sk";   //username
+        $mail->Password = "7TOMAS7knapcok7";   //password
+
 
         //Recipients
-        $mail->setFrom('xknapcok@stuba.sk', 'Mailer');
-        $mail->addAddress('knapcoktomas@gmail.com');               //Name is optional
-        $mail->addReplyTo('xknapcok@stuba.sk', 'Information');
+        $mail->setFrom('xknapcok@stuba.sk', 'TestMail');
+        $mail->addAddress('lejkoivan@gmail.com');               //Name is optional
+        //$mail->addReplyTo('xknapcok@stuba.sk', 'Information');
 
         //Attachments
         $mail->addAttachment('output.csv');    //Optional name
@@ -173,8 +181,13 @@ function sendEmail($mail): void
         $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-        $mail->send();
-        echo 'Message has been sent';
+        $result = $mail->send();
+        if(!$result) {
+            echo "failed";
+        } else {
+            echo "Email successful";
+
+        }
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
