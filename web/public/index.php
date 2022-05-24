@@ -6,7 +6,7 @@ $tmp_r = null;
 $result = null;
 $selected = "sk";
 
-if(isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
     if (!empty($_POST['lang'])) {
         $selected = $_POST['lang'];
     }
@@ -35,12 +35,11 @@ if (isset($_SESSION['output'])) {
 }
 
 if (isset($_SESSION['email'])) {
-    if ($_SESSION['email'] == "success"){
+    if ($_SESSION['email'] == "success") {
         $message = "Email sent successfully!";
         echo "<script type='text/javascript'>alert('$message');</script>";
         unset($_SESSION['email']);
-    }
-    else {
+    } else {
         $message = "Email failed! Try again.";
         echo "<script type='text/javascript'>alert('$message');</script>";
         unset($_SESSION['email']);
@@ -65,13 +64,11 @@ if (isset($_SESSION['email'])) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Open+Sans:ital,wght@1,300&display=swap"
           rel="stylesheet">
 </head>
-
 <body>
 
 
 <div id="mainHeader">
     <h1>CAS API</h1>
-
     <form action="index.php" method="post">
         <label for="lang-switch">
             <span lang="sk">Jazyk</span>
@@ -88,7 +85,9 @@ if (isset($_SESSION['email'])) {
     <div class="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
-            <a href="manual.php?lang=<?php echo $selected?>"><div id="button-holder">Manual</div></a>
+            <a href="manual.php?lang=<?php echo $selected ?>">
+                <div id="button-holder">Manual</div>
+            </a>
             <form action="server.php" method="post">
                 <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Export do CSV">
                 <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
@@ -97,11 +96,8 @@ if (isset($_SESSION['email'])) {
                 <input lang="sk" type="submit" class="menu-item" name="sendEmail" value="Odošli email">
                 <input lang="en" type="submit" class="menu-item" name="sendEmail" value="Send Email">
             </form>
-
         </div>
     </div>
-
-
 </div>
 
 <div id="mainContent">
@@ -129,8 +125,8 @@ if (isset($_SESSION['email'])) {
             <h2 lang="sk">Zadaj veľkosť prekážky</h2>
             <form id="r-form" action="server.php" class="inventors-form" method="post" enctype="multipart/form-data">
                 <div class="box">
-                    <label class="myLabel" lang="en" for="r">Input r: </label>
-                    <label class="myLabel" lang="sk" for="r">Vstup r: </label>
+                    <label class="myLabel" lang="en" for="r">Input r <-0,1 ; 0,1>: </label>
+                    <label class="myLabel" lang="sk" for="r">Vstup r <-0,1 ; 0,1>: </label>
                     <input type="number" step="0.01" name="r" id="r" required min="-0.1" max="0.1">
                 </div>
                 <input lang="en" class="sub dropbtn" type="submit" value="Show" id="submit">
@@ -175,13 +171,13 @@ if (isset($_SESSION['email'])) {
 
     fabric.Image.fromURL('/img/car.png', function (img) {
         var oImg = img.set({left: 260, top: 35}).scale(0.4);
-        img.set({selectable : false});
+        img.set({selectable: false});
         canvas.add(oImg);
     });
 
     fabric.Image.fromURL('/img/wheel.png', function (img) {
         var oImg = img.set({left: 302, top: 165}).scale(0.13);
-        img.set({selectable : false});
+        img.set({selectable: false});
         canvas.add(oImg);
     });
 
