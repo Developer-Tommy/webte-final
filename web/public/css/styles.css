@@ -27,7 +27,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 20px;
 }
 
 #mainHeader h1 {
@@ -62,16 +62,26 @@ h2 {
     padding: 20px;
 }
 
+.dropbtn {
+    padding: 10px;
+}
+
+#button-holder {
+    padding: 20px;
+}
 
 input[type=submit] , #button-holder, button{
 
     width: 200px;
-    padding: 10px;
     text-decoration: none;
     color: var(--cream);
     background: var(--c3);
     border: none;
     font-family: 'Montserrat', sans-serif;
+}
+
+.menu-item {
+    padding: 20px 0;
 }
 
 input[type=submit]:hover, #button-holder:hover  {
@@ -124,6 +134,7 @@ hr {
 #button-holder {
     text-align: center;
 }
+
 a{
     text-decoration:none;
     color: var(--cream);

@@ -68,24 +68,21 @@ if (isset($_SESSION['output'])) {
             <option value="en">English</option>
             <option value="sk">Slovensky</option>
         </select>
-        <input lang="sk" type="submit" name="submit" value="Potvrď jazyk">
-        <input lang="en" type="submit" name="submit" value="Confirm language">
+        <input lang="sk" type="submit" class="dropbtn" name="submit" value="Potvrď jazyk">
+        <input lang="en" type="submit" class="dropbtn" name="submit" value="Confirm language">
     </form>
-
-
-
 
     <div class="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
             <div id="button-holder"><a href="manual.php?lang=<?php echo $selected?>">Manual</a></div>
             <form action="server.php" method="post">
-                <input lang="sk" type="submit" name="toCSV" value="Export do CSV">
-                <input lang="en" type="submit" name="toCSV" value="Export to CSV">
+                <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Export do CSV">
+                <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
             </form>
             <form action="server.php" method="post">
-                <input lang="sk" type="submit" name="toCSV" value="Odošli email">
-                <input lang="en" type="submit" name="sendEmail" value="Send Email">
+                <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Odošli email">
+                <input lang="en" type="submit" class="menu-item" name="sendEmail" value="Send Email">
             </form>
 
         </div>
@@ -105,8 +102,8 @@ if (isset($_SESSION['output'])) {
                     <label class="myLabel" lang="sk" for="octave">Vstup: </label>
                     <textarea name="octave" id="octave" class="area-box"></textarea>
                 </div>
-                <input lang="en" class="sub" type="submit" value="Show">
-                <input lang="sk" class="sub" type="submit" value="Zobraz">
+                <input lang="en" class="sub dropbtn" type="submit" value="Show">
+                <input lang="sk" class="sub dropbtn" type="submit" value="Zobraz">
             </form>
             <hr>
             <h2 lang="en">Output</h2>
@@ -123,8 +120,8 @@ if (isset($_SESSION['output'])) {
                     <label class="myLabel" lang="sk" for="r">Vstup r: </label>
                     <input type="number" step="0.01" name="r" id="r" required min="-0.1" max="0.1">
                 </div>
-                <input lang="en" class="sub" type="submit" value="Show" id="submit">
-                <input lang="sk" class="sub" type="submit" value="Zobraz" id="submit">
+                <input lang="en" class="sub dropbtn" type="submit" value="Show" id="submit">
+                <input lang="sk" class="sub dropbtn" type="submit" value="Zobraz" id="submit">
             </form>
         </div>
     </section>
