@@ -53,6 +53,18 @@ $lg = $_GET['lang'];
             of the selected obstacle that the car with the wheel is approaching. Based on the calculated values, both
             the graph and the animation are updated.
         </p>
+        <h2 lang="sk">Dvojjazyčná stránka</h2>
+        <h2 lang="en">Bilingual site</h2>
+        <p lang="sk">
+            Táto aplikácia je dostupná v dvoch jazykoch, a to v <strong>Slovenčine</strong> a <strong>Angličtine</strong>.
+            Vo vrchnej lište hlavnej stránky je možnosť si zvoliť v akom jazyku sa má stránka zobrazovať.
+            Svoj výber potvrdíte stlačením tlačidla "Potvrď jazyk".
+        </p>
+        <p lang="en">
+            This app is available in two languages, <strong> Slovak </strong> and <strong> English </strong>.
+            In the top bar of the main page there is an checkbox to choose in which language the page should be displayed.
+            To confirm your selection, press the "Confirm language" button.
+        </p>
         <h2 lang="sk">Octave príkazový riadok</h2>
         <h2 lang="en">Octave Command Line Interface</h2>
         <p lang="sk">
@@ -131,6 +143,16 @@ $lg = $_GET['lang'];
             "Export to CSV"
             button, the server downloads all logs from the database and allows the user to select a location for the
             downloaded CSV file.
+        </p>
+        <h2 lang="sk">Uloženie manuálu do PDF súboru</h2>
+        <h2 lang="en">Save manual to PDF file</h2>
+        <p lang="sk">
+            Táto podstranka aplikácie umožňuje stiahnutie manuálu do PDF súboru.
+            Po stlačení tlačidla "Ulož ako PDF" server vygeneruje optimalizovaný PDF súbor, ktorý si je možné stiahnuť na vami zvolené miesto.
+        </p>
+        <p lang="en">
+            This subpage of the application allows you to download the manual to a PDF file.
+            After pressing the "Save as PDF" button, the server will generate an optimized PDF file that can be downloaded to a location of your choice.
         </p>
     </div>
 
