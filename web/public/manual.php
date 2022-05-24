@@ -12,16 +12,35 @@ $lg = $_GET['lang'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
             integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <title>Document</title>
+    <title>CAS API</title>
     <link href="css/styles.css" rel="stylesheet" type="text/css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Open+Sans:ital,wght@1,300&display=swap"
           rel="stylesheet">
-
 </head>
 <body>
-
+<div id="mainHeader">
+    <h1>CAS API</h1>
+    <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+            <a lang="sk" href="manual.php?lang=<?php echo $lg ?>"><div class="button-holder">Návod</div></a>
+            <a lang="en" href="manual.php?lang=<?php echo $lg ?>"><div class="button-holder">Guide</div></a>
+            <a lang="sk" href="documentation.php?lang=<?php echo $lg ?>"><div class="button-holder">Dokumentácia</div></a>
+            <a lang="en" href="documentation.php?lang=<?php echo $lg ?>"><div class="button-holder">Documentation</div></a>
+            <form action="server.php" method="post">
+                <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Export do CSV">
+                <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
+            </form>
+            <form action="server.php" method="post">
+                <input lang="sk" type="submit" class="menu-item" name="sendEmail" value="Odošli email">
+                <input lang="en" type="submit" class="menu-item" name="sendEmail" value="Send Email">
+            </form>
+        </div>
+    </div>
+</div>
+<div id="mainContent">
 <section id="desc">
     <h1 lang="sk">Popis Api služby</h1>
     <h1 lang="en">Description of Api service</h1>
@@ -30,10 +49,10 @@ $lg = $_GET['lang'];
     <button class="dropbtn pdf" lang="en" onclick="savePDF()" data-html2canvas-ignore="true">Save as PDF</button>
 
     <a lang="sk" href="index.php">
-        <button class="dropbtn pdf" data-html2canvas-ignore="true">Späť</button>
+        <button class="dropbtn pdf" data-html2canvas-ignore="true">Domovská stránka</button>
     </a>
     <a lang="en" href="index.php">
-        <button class="dropbtn pdf" data-html2canvas-ignore="true">Back</button>
+        <button class="dropbtn pdf" data-html2canvas-ignore="true">Homepage</button>
     </a>
 
     <div id="content">
@@ -157,7 +176,7 @@ $lg = $_GET['lang'];
     </div>
 
 </section>
-
+</div>
 <script>
 
     function savePDF() {

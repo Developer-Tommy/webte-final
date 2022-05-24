@@ -178,3 +178,17 @@ a{
 .dropdown:hover {
     background-color: var(--c2);
 }
+table, tr, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    min-width: 30%;
+    text-align: center;
+    margin: auto;
+}
+table {
+    max-width: 80%;
+    margin-bottom: 100px;
+}
+ul, li {
+    list-style-type: none;
+}
