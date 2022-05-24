@@ -108,6 +108,7 @@ select {
 textarea {
     min-width: 600px;
     height: 100px;
+    margin: 10px 0;
 }
 
 .myLabel {

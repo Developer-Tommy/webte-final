@@ -38,10 +38,12 @@ if (isset($_SESSION['email'])) {
     if ($_SESSION['email'] == "success"){
         $message = "Email sent successfully!";
         echo "<script type='text/javascript'>alert('$message');</script>";
+        unset($_SESSION['email']);
     }
     else {
         $message = "Email failed! Try again.";
         echo "<script type='text/javascript'>alert('$message');</script>";
+        unset($_SESSION['email']);
     }
 }
 

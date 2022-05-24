@@ -116,6 +116,8 @@ if (isset($_POST['sendEmail'])) {
     $data = $logController->getAllLogs();
     createCSVforEmail($data);
     sendEmail($emailServer);
+    header("Location:index.php");
+
 }
 
 function createCSV($data): void
@@ -183,10 +185,8 @@ function sendEmail($emailServer): void
 
         $result = $mail->send();
         if (!$result) {
-            header("Location:index.php");
             $_SESSION['email'] = "fail";
         } else {
-            header("Location:index.php");
             $_SESSION['email'] = "success";
         }
     } catch (Exception $e) {
