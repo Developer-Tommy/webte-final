@@ -64,6 +64,7 @@ h2 {
 
 .dropbtn {
     padding: 10px;
+    cursor: pointer;
 }
 
 #button-holder {
@@ -82,9 +83,10 @@ input[type=submit] , #button-holder, button{
 
 .menu-item {
     padding: 20px 0;
+    cursor: pointer;
 }
 
-input[type=submit]:hover, #button-holder:hover  {
+input[type=submit]:hover, #button-holder:hover, .pdf:hover  {
     background: var(--c2);
 }
 

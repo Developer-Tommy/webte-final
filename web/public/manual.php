@@ -27,11 +27,11 @@ $lg = $_GET['lang'];
     <h1 lang="sk">Popis Api služby</h1>
     <h1 lang="en">Description of Api service</h1>
 
-    <button lang="sk" onclick="savePDF()">Ulož ako PDF</button>
-    <button lang="en" onclick="savePDF()">Save as PDF</button>
+    <button class="dropbtn pdf" lang="sk" onclick="savePDF()">Ulož ako PDF</button>
+    <button class="dropbtn pdf" lang="en" onclick="savePDF()">Save as PDF</button>
 
-    <a lang="sk" href="index.php"><button>Späť</button></a>
-    <a lang="en" href="index.php"><button>Back</button></a>
+    <a lang="sk" href="index.php"><button class="dropbtn pdf">Späť</button></a>
+    <a lang="en" href="index.php"><button class="dropbtn pdf">Back</button></a>
 
     <div id="content">
         <p lang="sk">

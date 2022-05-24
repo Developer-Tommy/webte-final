@@ -75,7 +75,7 @@ if (isset($_SESSION['output'])) {
     <div class="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
-            <div id="button-holder"><a href="manual.php?lang=<?php echo $selected?>">Manual</a></div>
+            <a href="manual.php?lang=<?php echo $selected?>"><div id="button-holder">Manual</div></a>
             <form action="server.php" method="post">
                 <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Export do CSV">
                 <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
