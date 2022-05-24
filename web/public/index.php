@@ -4,7 +4,13 @@ include "server.php";
 $tmp = null;
 $tmp_r = null;
 $result = null;
+$selected = "sk";
 
+if(isset($_POST['submit'])) {
+    if (!empty($_POST['lang'])) {
+        $selected = $_POST['lang'];
+    }
+}
 if (isset($_SESSION['http'])) {
     $page = $_SESSION['http'];
     if ($page == "index") {
@@ -48,19 +54,24 @@ if (isset($_SESSION['output'])) {
 </head>
 
 <body>
-
+<a href="manual.php?lang=<?php echo $selected?>">Manual</a>
 <div id="mainHeader">
     <h1>CAS API</h1>
 
-    <form>
+    <form action="index.php" method="post">
         <label for="lang-switch">
-            <span lang="sk">JAZYK</span>
-            <span lang="en">LANGUAGE</span>
+            <span lang="sk">Jazyk</span>
+            <span lang="en">Language</span>
         </label>
-        <select id="lang-switch">
+        <select id="lang-switch" name="lang" onchange="this.form.submit()">
             <option value="en">English</option>
             <option value="sk">Slovensky</option>
         </select>
+        <input type="submit" name="submit" value="Choose options">
+    </form>
+
+    <form action="server.php" method="post">
+        <input type="submit" name="toCSV" value="Export to CSV">
     </form>
 </div>
 

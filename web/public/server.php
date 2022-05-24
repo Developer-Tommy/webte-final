@@ -1,15 +1,24 @@
 <?php
+
 session_start();
 
 use App\Controller\LogController;
 use App\Model\Log;
+
+//require "PHPMailer-master/src/Exception.php";
+//require 'PHPMailer-master/src/PHPMailer.php';
+//require 'PHPMailer-master/src/SMTP.php';
+//
+//use PHPMailer\PHPMailer\PHPMailer;
+//use PHPMailer\PHPMailer\Exception;
+//use PHPMailer\PHPMailer\SMTP;
 
 include '../app/vendor/autoload.php';
 
 $logController = new LogController();
 $_SESSION['http'] = "server";
 
-if (isset($_POST['octave'])) {
+if (isset($_POST['octave'])){
     $script = fopen("script.m", "w");
     fwrite($script, "pkg load control;");
     fwrite($script, $_POST['octave']);
@@ -20,9 +29,10 @@ if (isset($_POST['octave'])) {
         $log->setCommand($_POST['octave']);
         $log->setInfo("failed");
         $logController->insertLog($log);
-    } else {
+    }
+    else {
         $log = new Log();
-        $log->setCommand($val);
+        $log->setCommand($_POST['octave']);
         $log->setInfo("successful");
         $logController->insertLog($log);
     }
@@ -32,14 +42,14 @@ if (isset($_POST['octave'])) {
 
 }
 
-if (isset($_POST['r'])) {
+if (isset($_POST['r'])){
     $r = $_POST['r'];
-    if (isset($_SESSION['active'])) {
+    if (isset($_SESSION['active'])){
         $output2 = null;
         $newVal = $_SESSION['active'];
         $newVal = trim($newVal[2]);
-        $newVal = str_replace("   ", ";", $newVal);
-        $newVal = str_replace("  ", ";", $newVal);
+        $newVal = str_replace("   ", ";",$newVal);
+        $newVal = str_replace("  ", ";",$newVal);
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
         fwrite($script, "pkg load control;");
@@ -57,7 +67,8 @@ if (isset($_POST['r'])) {
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        } else {
+        }
+        else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -65,7 +76,8 @@ if (isset($_POST['r'])) {
         }
         $_SESSION['output'] = $output;
         $_SESSION['active'] = $output2;
-    } else {
+    }
+    else {
         $output = $output2 = null;
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
@@ -84,7 +96,8 @@ if (isset($_POST['r'])) {
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        } else {
+        }
+        else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -95,4 +108,68 @@ if (isset($_POST['r'])) {
 
     }
     header("Location:index.php");
+
 }
+
+if (isset($_POST['toCSV'])){
+    $mail = new PHPMailer(true);
+    $data = $logController->getAllLogs();
+    createCSV($data);
+    //sendEmail($mail);
+
+    //header("Location:index.php");
+}
+
+function createCSV($data): void
+{
+    $header_args = array('ID', 'Command', 'Timestamp', 'Info');
+
+    ob_start();
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=csv_export.csv');
+
+    $output = fopen( 'php://output', 'w' );
+    ob_end_clean();
+    fputcsv($output, $header_args);
+
+    foreach($data AS $data_item){
+        fputcsv($output, $data_item);
+    }
+    exit;
+}
+
+function sendEmail($mail): void
+{
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();
+        $mail->Host = 'smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Port = 2525;
+        $mail->Username = 'd1206f364c9bfd';
+        $mail->Password = '9ed0bed686a866';
+
+        //Recipients
+        $mail->setFrom('xknapcok@stuba.sk', 'Mailer');
+        $mail->addAddress('knapcoktomas@gmail.com');               //Name is optional
+        $mail->addReplyTo('xknapcok@stuba.sk', 'Information');
+
+        //Attachments
+        $mail->addAttachment('output.csv');    //Optional name
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'Here is the subject';
+        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
+}
+
