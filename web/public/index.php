@@ -81,7 +81,7 @@ if (isset($_SESSION['output'])) {
                 <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
             </form>
             <form action="server.php" method="post">
-                <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Odošli email">
+                <input lang="sk" type="submit" class="menu-item" name="sendEmail" value="Odošli email">
                 <input lang="en" type="submit" class="menu-item" name="sendEmail" value="Send Email">
             </form>
 
