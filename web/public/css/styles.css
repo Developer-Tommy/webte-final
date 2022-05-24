@@ -67,11 +67,11 @@ h2 {
     cursor: pointer;
 }
 
-#button-holder {
+.button-holder {
     padding: 20px;
 }
 
-input[type=submit] , #button-holder, button{
+input[type=submit] , .button-holder, button{
 
     width: 200px;
     text-decoration: none;
@@ -86,7 +86,7 @@ input[type=submit] , #button-holder, button{
     cursor: pointer;
 }
 
-input[type=submit]:hover, #button-holder:hover, .pdf:hover  {
+input[type=submit]:hover, .button-holder:hover, .pdf:hover  {
     background: var(--c2);
 }
 
@@ -134,7 +134,7 @@ hr {
     margin: 40px auto;
 }
 
-#button-holder {
+.button-holder {
     text-align: center;
 }
 

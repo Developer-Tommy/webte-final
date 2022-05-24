@@ -88,7 +88,9 @@ if (isset($_SESSION['email'])) {
     <div class="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
-            <a href="manual.php?lang=<?php echo $selected?>"><div id="button-holder">Manual</div></a>
+            <a href="manual.php?lang=<?php echo $selected?>"><div class="button-holder">Manual</div></a>
+            <a lang="sk" href="documentation.php?lang=<?php echo $selected?>"><div class="button-holder">Dokumentácia</div></a>
+            <a lang="en" href="documentation.php?lang=<?php echo $selected?>"><div class="button-holder">Documentation</div></a>
             <form action="server.php" method="post">
                 <input lang="sk" type="submit" class="menu-item" name="toCSV" value="Export do CSV">
                 <input lang="en" type="submit" class="menu-item" name="toCSV" value="Export to CSV">
