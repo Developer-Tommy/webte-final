@@ -1,1 +1,1 @@
-pkg load control;2+2
+pkg load control;1+1

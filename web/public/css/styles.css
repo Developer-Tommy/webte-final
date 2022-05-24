@@ -64,6 +64,7 @@ h2 {
 
 .dropbtn {
     padding: 10px;
+    font-size: large;
     cursor: pointer;
 }
 
@@ -115,7 +116,8 @@ textarea {
     display: block;
     color: var(--c3);
     font-family: 'Montserrat', sans-serif;
-    font-size: x-large;
+    font-size: large;
+    font-weight: bold;
 }
 
 .canvas-container {
