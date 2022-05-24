@@ -20,22 +20,11 @@ class LogController
         $this->db = MyPDO::instance();
     }
 
-    public function getAllPeople()
+    public function getAllLogs()
     {
-        $stmt = $this->conn->prepare("select osoby.*, count(p.placing) as gold_count from osoby left outer join (select * from umiestnenia where placing=1) p on p.person_id = osoby.id group by osoby.id;");
+        $stmt = $this->db->run("select * from logs");
         $stmt->execute();
-
-        $people = $stmt->fetchAll(PDO::FETCH_CLASS, "App\Model\Person");
-
-        foreach ($people as $person) {
-            $stmt = $this->conn->prepare("select umiestnenia.*, city from umiestnenia join oh on umiestnenia.oh_id = oh.id where person_id = :personId;");
-            $stmt->bindParam(":personId", $person->getId(), PDO::PARAM_INT);
-            $stmt->execute();
-            $placements = $stmt->fetchAll(PDO::FETCH_CLASS, "App\Model\Placement");
-            $person->setPlacements($placements);
-        }
-
-        return $people;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getPerson($id)
