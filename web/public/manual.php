@@ -1,7 +1,6 @@
 <?php
 $lg = $_GET['lang'];
 ?>
-
 <!doctype html>
 <html lang="">
 <head>
@@ -30,20 +29,27 @@ $lg = $_GET['lang'];
     <button class="dropbtn pdf" lang="sk" onclick="savePDF()">Ulož ako PDF</button>
     <button class="dropbtn pdf" lang="en" onclick="savePDF()">Save as PDF</button>
 
-    <a lang="sk" href="index.php"><button class="dropbtn pdf">Späť</button></a>
-    <a lang="en" href="index.php"><button class="dropbtn pdf">Back</button></a>
+    <a lang="sk" href="index.php">
+        <button class="dropbtn pdf">Späť</button>
+    </a>
+    <a lang="en" href="index.php">
+        <button class="dropbtn pdf">Back</button>
+    </a>
 
     <div id="content">
         <p lang="sk">
             Vitajte na našej stránke, ktorá poskytuje API pre animáciu dynamického systému <strong>„tlmič
-                automobilu"</strong> API
+                automobilu"</strong>. API
             generuje graf a spúšťa animáciu na
-            základe vstupných hodnôt. Hodnota r poskytuje veľkosť zvolenej prekážky na ktorú, auto s kolesom nabieha. Na
+            základe vstupných hodnôt. Hodnota <strong>r</strong> poskytuje veľkosť zvolenej prekážky, na ktorú auto s
+            kolesom nabieha. Na
             základe vypočítaných hodnôt sa graf aj animáciu aktualizujú.
         </p>
         <p lang="en">
-            Welcome to our page, which provides an API for the animation of the dynamic system "car damper" The
-            API generates a graph and starts the animation based on the input values. The value of r provides the size
+            Welcome to our page, which provides an API for the animation of the dynamic system <strong>"car
+                damper"</strong>. The
+            API generates a graph and starts the animation based on the input values. The value of <strong>r</strong>
+            provides the size
             of the selected obstacle that the car with the wheel is approaching. Based on the calculated values, both
             the graph and the animation are updated.
         </p>
@@ -51,7 +57,7 @@ $lg = $_GET['lang'];
         <h2 lang="en">Octave Command Line Interface</h2>
         <p lang="sk">
             Prvý formulár s názvom "Octave CLI" poskytuje textové pole pre zadávanie príkazov. Serverová strana
-            aplikácie príjme odoslanú požiadavku a vytvorí spúšťací script s daným príkazom ktorý,
+            aplikácie príjme odoslanú požiadavku a vytvorí spúšťací script s daným príkazom, ktorý
             odošle na nainštalovaný octave server pomocou príkazu <i><strong>"octave cli --evel 'meno vytvoreného script
                     súboru'"</strong></i>.
             Vrátená požiadavka sa vracia zo strany servera späť na klientskú časť a je zobrazená
@@ -60,17 +66,20 @@ $lg = $_GET['lang'];
         <p lang="en">
             The first form, called "Octave CLI", provides a text box for entering commands. The server side of the
             application receives the sent request and creates a startup script with the given command, which is sent to
-            the installed octave server using the command <i><strong>"octave cli --evel 'name of the created script file'"</strong></i>. The
+            the installed octave server using the command <i><strong>"octave cli --evel 'name of the created script
+                    file'"</strong></i>. The
             returned request is returned by the server to the client and is displayed to the user who sent the
             request.
         </p>
         <h2 lang="sk">Nábeh na prekážku</h2>
         <h2 lang="en">Obstacle course</h2>
         <p lang="sk">
-            Formulár číslo dva poskytuje vstupný bod pre veľkosť požadovanej prekážky na ktorú, auto s kolesom môže
+            Formulár číslo dva poskytuje vstupný bod pre veľkosť požadovanej prekážky, na ktorú auto s kolesom môže
             nabehnúť. Táto hodnota je udávaná v metroch v rozsahu <-0,1 ; 0,1>. Po zadaní a potvrdení,
-            sa na strane servera príjme pomocou post funkcie zvolená hodnota "r. Hodnota v premennej r sa vloží do
-            príkazu, ktorý sa odošle na octave server v podobe script súboru podobne ako v predošlom prípade pomocou PHP
+            sa na strane servera príjme pomocou POST funkcie zvolená hodnota <strong>r</strong>. Hodnota v premennej
+            <strong>r</strong> sa vloží do
+            príkazu, ktorý sa odošle na octave server v podobe script súboru, podobne ako v predošlom prípade pomocou
+            PHP
             funkcie exec().
             Server príjma výstup z octave servera a uloží ho do session premennej, ktorá sa vracia späť na klienskú
             stranu aplikácie. Server zároveň ukladá dáta, ktoré sa pri druhom spustení použijú ako počiatočné podmienky
@@ -79,9 +88,11 @@ $lg = $_GET['lang'];
         <p lang="en">
             Form number two provides an entry point for the size of the obstacle required on which the car with the
             wheel can run. This value is given in meters in the range <-0.1; 0.1>. After entering and confirming, the
-            selected value "r" is accepted on the server side using the post function. The value in the variable r is
+            selected value <strong>r</strong> is accepted on the server side using the post function. The value in the
+            variable <strong>r</strong> is
             inserted into the command, which is sent to the octave server as a script file similarly to the previous
-            case using the PHP function exec (). receives the output from the octave server and stores it in a session
+            case using the PHP function exec (). Server receives the output from the octave server and stores it in a
+            session
             variable that returns to the client side of the application, and the server stores data that will be used as
             initial conditions for further simulation on the second run.
         </p>
@@ -98,7 +109,7 @@ $lg = $_GET['lang'];
         <h2 lang="en">Simulation data logging</h2>
         <p lang="sk">
             Všetky požiadavky posielané na server su ukladané do databázy. Pri prijatí novej požiadavky, server vykoná
-            komunikáciu so serverom octave. Použité príkazu a aj informácie či všetko prebehlo v poriadku sú vkladané do
+            komunikáciu so serverom octave. Použité príkazy a aj informácie či všetko prebehlo v poriadku sú vkladané do
             databázy aj s aktuálnym dátumom vykonania požiadavky.
         </p>
         <p lang="en">
@@ -109,14 +120,15 @@ $lg = $_GET['lang'];
         <h2 lang="sk">Export dát do CSV súboru</h2>
         <h2 lang="en">Export to CSV file</h2>
         <p lang="sk">
-            Hlavná strana klienskej aplikácie umožňuje stiahnutie logov z databázy do csv súboru, kde sú dáta zapisené
+            Hlavná strana klienskej aplikácie umožňuje stiahnutie logov z databázy do csv súboru, kde sú dáta zapisané
             vo formáte <strong>("ID", "Command", "Timestamp", "Info")</strong>.
             Po stlačení tlačidla "Export to CSV" server stiahne z databázy všetky logy a umožní uživateľovi zvoliť
             umiestnenie pre sťahovaný CSV súbor.
         </p>
         <p lang="en">
             The main page of the client application allows downloading logs from the database to a csv file, where the
-            data is written in the format <strong>("ID", "Command", "Timestamp", "Info")</strong>. After pressing the "Export to CSV"
+            data is written in the format <strong>("ID", "Command", "Timestamp", "Info")</strong>. After pressing the
+            "Export to CSV"
             button, the server downloads all logs from the database and allows the user to select a location for the
             downloaded CSV file.
         </p>

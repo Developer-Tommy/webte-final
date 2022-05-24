@@ -1,26 +1,21 @@
 <?php
-
 session_start();
+
+include "config.php";
+require_once('libphp-phpmailer/autoload.php');
+include '../app/vendor/autoload.php';
 
 use App\Controller\LogController;
 use App\Model\Log;
-
-//require "../app/PHPMailer/src/Exception.php";
-//require '../app/PHPMailer/src/PHPMailer.php';
-//require '../app/PHPMailer/src/SMTP.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-//use PHPMailer\PHPMailer\SMTP;
 
-require_once('libphp-phpmailer/autoload.php');
-
-include '../app/vendor/autoload.php';
+$emailServer = $email;
 
 $logController = new LogController();
 $_SESSION['http'] = "server";
 
-if (isset($_POST['octave'])){
+if (isset($_POST['octave'])) {
     $script = fopen("script.m", "w");
     fwrite($script, "pkg load control;");
     fwrite($script, $_POST['octave']);
@@ -31,8 +26,7 @@ if (isset($_POST['octave'])){
         $log->setCommand($_POST['octave']);
         $log->setInfo("failed");
         $logController->insertLog($log);
-    }
-    else {
+    } else {
         $log = new Log();
         $log->setCommand($_POST['octave']);
         $log->setInfo("successful");
@@ -44,14 +38,14 @@ if (isset($_POST['octave'])){
 
 }
 
-if (isset($_POST['r'])){
+if (isset($_POST['r'])) {
     $r = $_POST['r'];
-    if (isset($_SESSION['active'])){
+    if (isset($_SESSION['active'])) {
         $output2 = null;
         $newVal = $_SESSION['active'];
         $newVal = trim($newVal[2]);
-        $newVal = str_replace("   ", ";",$newVal);
-        $newVal = str_replace("  ", ";",$newVal);
+        $newVal = str_replace("   ", ";", $newVal);
+        $newVal = str_replace("  ", ";", $newVal);
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
         fwrite($script, "pkg load control;");
@@ -69,8 +63,7 @@ if (isset($_POST['r'])){
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        }
-        else {
+        } else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -78,8 +71,7 @@ if (isset($_POST['r'])){
         }
         $_SESSION['output'] = $output;
         $_SESSION['active'] = $output2;
-    }
-    else {
+    } else {
         $output = $output2 = null;
         $script = fopen("script2.m", "w");
         $script2 = fopen("script3.m", "w");
@@ -98,8 +90,7 @@ if (isset($_POST['r'])){
             $log->setCommand($val);
             $log->setInfo("failed");
             $logController->insertLog($log);
-        }
-        else {
+        } else {
             $log = new Log();
             $log->setCommand($val);
             $log->setInfo("successful");
@@ -114,17 +105,17 @@ if (isset($_POST['r'])){
 
 }
 
-if (isset($_POST['toCSV'])){
+if (isset($_POST['toCSV'])) {
 
     $data = $logController->getAllLogs();
     createCSV($data);
     header("Location:index.php");
 }
 
-if (isset($_POST['sendEmail'])){
-
-    header("Location:index.php");
-    sendEmail();
+if (isset($_POST['sendEmail'])) {
+    $data = $logController->getAllLogs();
+    createCSVforEmail($data);
+    sendEmail($emailServer);
 }
 
 function createCSV($data): void
@@ -136,27 +127,39 @@ function createCSV($data): void
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=csv_export.csv');
 
-    $output = fopen( 'php://output', 'w' );
-    $csv = fopen( 'output.csv', 'w' );
+    $output = fopen('php://output', 'w');
+    $csv = fopen('output.csv', 'w');
     ob_end_clean();
     fputcsv($output, $header_args);
     fputcsv($csv, $header_args);
 
-    foreach($data AS $data_item){
+    foreach ($data as $data_item) {
         fputcsv($output, $data_item);
         fputcsv($csv, $data_item);
     }
     exit;
 }
 
-function sendEmail(): void
+function createCSVforEmail($data): void
+{
+    $header_args = array('ID', 'Command', 'Timestamp', 'Info');
+
+    ob_start();
+
+    $csv = fopen('output.csv', 'w');
+    ob_end_clean();
+    fputcsv($csv, $header_args);
+
+    foreach ($data as $data_item) {
+        fputcsv($csv, $data_item);
+    }
+}
+
+function sendEmail($emailServer): void
 {
     try {
         //Server settings
-        //                      //Enable verbose debug output
         $mail = new PHPMailer(true);
-        //$mail->SMTPDebug = 2;
-
         $mail->isSMTP();
         $mail->CharSet = 'UTF-8';
         $mail->SMTPSecure = "tsl";
@@ -166,30 +169,27 @@ function sendEmail(): void
         $mail->Username = "xknapcok@stuba.sk";   //username
         $mail->Password = "7TOMAS7knapcok7";   //password
 
-
         //Recipients
-        $mail->setFrom('xknapcok@stuba.sk', 'TestMail');
-        $mail->addAddress('lejkoivan@gmail.com');               //Name is optional
-        //$mail->addReplyTo('xknapcok@stuba.sk', 'Information');
+        $mail->setFrom('xknapcok@stuba.sk', 'CAS API Admin');
+        $mail->addAddress($emailServer);               //Name is optional
 
         //Attachments
         $mail->addAttachment('output.csv');    //Optional name
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Here is the subject';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $mail->Subject = 'CAS API - CSV Export';
+        $mail->Body = 'This email was autogenerated by CAS API made by awesome team: Miriam Siskovicova, Tomas Knapcok, Daniel Sterbak, Ivan Lejko. There is exported CSV file of logs included in attachments. Happy reading!';
 
         $result = $mail->send();
-        if(!$result) {
-            echo "failed";
+        if (!$result) {
+            header("Location:index.php");
+            $_SESSION['email'] = "fail";
         } else {
-            echo "Email successful";
-
+            header("Location:index.php");
+            $_SESSION['email'] = "success";
         }
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-
 }

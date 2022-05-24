@@ -34,6 +34,17 @@ if (isset($_SESSION['output'])) {
     unset($_SESSION['output']);
 }
 
+if (isset($_SESSION['email'])) {
+    if ($_SESSION['email'] == "success"){
+        $message = "Email sent successfully!";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+    }
+    else {
+        $message = "Email failed! Try again.";
+        echo "<script type='text/javascript'>alert('$message');</script>";
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="">
@@ -162,11 +173,13 @@ if (isset($_SESSION['output'])) {
 
     fabric.Image.fromURL('/img/car.png', function (img) {
         var oImg = img.set({left: 260, top: 35}).scale(0.4);
+        img.set({selectable : false});
         canvas.add(oImg);
     });
 
     fabric.Image.fromURL('/img/wheel.png', function (img) {
         var oImg = img.set({left: 302, top: 165}).scale(0.13);
+        img.set({selectable : false});
         canvas.add(oImg);
     });
 
@@ -242,15 +255,15 @@ if (isset($_SESSION['output'])) {
     function loadGraph() {
 
         if (lang === "en") {
-            carLabel = "Car(x1)";
-            wheelLabel = "Wheel(x3)";
+            carLabel = "Car";
+            wheelLabel = "Wheel";
             loadingLabel = "Loading...";
             timeLabel = "Time(s)";
             obstacleLabel = "Obstacle height(m)";
         }
         if (lang === "sk") {
-            carLabel = "Auto(x1)";
-            wheelLabel = "Koleso(x3)";
+            carLabel = "Auto";
+            wheelLabel = "Koleso";
             loadingLabel = "Načítavanie...";
             timeLabel = "Čas(s)";
             obstacleLabel = "Výška prekážky(m)";
@@ -340,8 +353,8 @@ if (isset($_SESSION['output'])) {
     }
 
     function update() {
-        const car = [];
         const wheel = [];
+        const car = [];
 
         let item_array = [];
         arr.shift()
@@ -358,8 +371,8 @@ if (isset($_SESSION['output'])) {
                     const results = item_array.filter(element => {
                         return element !== '';
                     });
-                    car.push(results[0])
-                    wheel.push(results[1])
+                    wheel.push(results[0])
+                    car.push(results[1])
 
                     let carAdd = Math.abs(parseFloat(results[1]) * 100).toFixed(4);
                     let wheelAdd = Math.abs(parseFloat(results[0]) * 10).toFixed(4);
@@ -380,12 +393,12 @@ if (isset($_SESSION['output'])) {
 
                     chart.updateSeries([
                         {
-                            name: carLabel,
-                            data: car
-                        },
-                        {
                             name: wheelLabel,
                             data: wheel
+                        },
+                        {
+                            name: carLabel,
+                            data: car
                         }
                     ])
 
