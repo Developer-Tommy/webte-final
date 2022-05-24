@@ -131,22 +131,16 @@ if (isset($_SESSION['output'])) {
     var newCanvas = document.querySelector("#canvas");
     var canvas = new fabric.Canvas(newCanvas, {width: 700, height: 400});
 
-    var carAnim = new fabric.Rect({
-        left: 280,
-        top: 110,
-        fill: 'red',
-        width: 140,
-        height: 40
+    fabric.Image.fromURL('/img/car.png', function(img) {
+        var oImg = img.set({ left: 260, top: 35}).scale(0.4);
+        canvas.add(oImg);
     });
 
-    var wheelAnim = new fabric.Circle({
-        left: 320,
-        top: 200,
-        radius: 30,
-        fill: 'blue'
+    fabric.Image.fromURL('/img/wheel.png', function(oImg) {
+        canvas.add(oImg);
+        oImg.set({ left: 302, top: 165}).scale(0.13);
+        canvas.renderAll();
     });
-    canvas.add(carAnim);
-    canvas.add(wheelAnim);
 
     function getCookie(cname) {
         //https://www.w3schools.com/js/js_cookies.asp
@@ -339,8 +333,8 @@ if (isset($_SESSION['output'])) {
                     car.push(results[0])
                     wheel.push(results[1])
 
-                    let carAdd = Math.abs(parseFloat(results[1]) * 400).toFixed( 4 );
-                    let wheelAdd = Math.abs(parseFloat(results[0]) * 30).toFixed( 4 );
+                    let carAdd = Math.abs(parseFloat(results[1]) * 100).toFixed( 4 );
+                    let wheelAdd = Math.abs(parseFloat(results[0]) * 10).toFixed( 4 );
                     let carStr, wheelStr;
 
                     if (prevCarVal !== carAdd)
@@ -367,11 +361,11 @@ if (isset($_SESSION['output'])) {
                         }
                     ])
 
-                    carAnim.animate('top', carStr, {
+                    canvas.item(0).animate('top', carStr, {
                         onChange: canvas.renderAll.bind(canvas),
                         duration: 1
                     });
-                    wheelAnim.animate('top', wheelStr, {
+                    canvas.item(1).animate('top', wheelStr, {
                         onChange: canvas.renderAll.bind(canvas),
                         duration: 1
                     });
