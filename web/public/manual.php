@@ -14,6 +14,12 @@ $lg = $_GET['lang'];
             integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Document</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Open+Sans:ital,wght@1,300&display=swap"
+          rel="stylesheet">
+
 </head>
 <body>
 
@@ -21,8 +27,11 @@ $lg = $_GET['lang'];
     <h1 lang="sk">Popis Api služby</h1>
     <h1 lang="en">Description of Api service</h1>
 
-    <button onclick="savePDF()">To PDF</button>
-    <a href="index.php">Back</a>
+    <button lang="sk" onclick="savePDF()">Ulož ako PDF</button>
+    <button lang="en" onclick="savePDF()">Save as PDF</button>
+
+    <a lang="sk" href="index.php"><button>Späť</button></a>
+    <a lang="en" href="index.php"><button>Back</button></a>
 
     <div id="content">
         <p lang="sk">

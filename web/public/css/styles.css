@@ -7,6 +7,10 @@
     --cream: #fdf9f9;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
@@ -22,6 +26,8 @@ body {
     font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
 }
 
 #mainHeader h1 {
@@ -56,17 +62,19 @@ h2 {
     padding: 20px;
 }
 
-input[type=submit] {
-    margin: 20px;
+
+input[type=submit] , #button-holder, button{
+
     width: 200px;
     padding: 10px;
     text-decoration: none;
     color: var(--cream);
     background: var(--c3);
     border: none;
+    font-family: 'Montserrat', sans-serif;
 }
 
-input[type=submit]:hover {
+input[type=submit]:hover, #button-holder:hover  {
     background: var(--c2);
 }
 
@@ -111,4 +119,46 @@ textarea {
 hr {
     width: 80%;
     margin: 40px auto;
+}
+
+#button-holder {
+    text-align: center;
+}
+a{
+    text-decoration:none;
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+}
+
+#desc{
+    padding: 0 10%;
+}
+
+.dropbtn {
+    background-color: var(--c3);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover {
+    background-color: var(--c2);
 }

@@ -54,7 +54,8 @@ if (isset($_SESSION['output'])) {
 </head>
 
 <body>
-<a href="manual.php?lang=<?php echo $selected?>">Manual</a>
+
+
 <div id="mainHeader">
     <h1>CAS API</h1>
 
@@ -67,12 +68,30 @@ if (isset($_SESSION['output'])) {
             <option value="en">English</option>
             <option value="sk">Slovensky</option>
         </select>
-        <input type="submit" name="submit" value="Choose options">
+        <input lang="sk" type="submit" name="submit" value="Potvrď jazyk">
+        <input lang="en" type="submit" name="submit" value="Confirm language">
     </form>
 
-    <form action="server.php" method="post">
-        <input type="submit" name="toCSV" value="Export to CSV">
-    </form>
+
+
+
+    <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+            <div id="button-holder"><a href="manual.php?lang=<?php echo $selected?>">Manual</a></div>
+            <form action="server.php" method="post">
+                <input lang="sk" type="submit" name="toCSV" value="Export do CSV">
+                <input lang="en" type="submit" name="toCSV" value="Export to CSV">
+            </form>
+            <form action="server.php" method="post">
+                <input lang="sk" type="submit" name="toCSV" value="Odošli email">
+                <input lang="en" type="submit" name="sendEmail" value="Send Email">
+            </form>
+
+        </div>
+    </div>
+
+
 </div>
 
 <div id="mainContent">
