@@ -106,7 +106,6 @@ if (isset($_POST['r'])) {
 }
 
 if (isset($_POST['toCSV'])) {
-
     $data = $logController->getAllLogs();
     createCSV($data);
     header("Location:index.php");
