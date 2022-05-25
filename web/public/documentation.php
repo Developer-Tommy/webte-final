@@ -83,22 +83,22 @@ $lg = $_GET['lang'];
             <h2 lang="en">Technologies used</h2>
             <p lang="sk">
                 Nginx, PHP-FPM, Composer, MySQL, PHPMyAdmin, Octave, Docker, Git <br>
-                Graf bol robený pomocou javascript knižnice <a href="https://apexcharts.com/"
+                Graf bol robený pomocou javascript knižnice <a style="color:black;" href="https://apexcharts.com/"
                                                                class="link">ApexCharts.js</a> <br>
-                Animácia pomocou javascript knižnice <a href="http://fabricjs.com/" class="link">Fabric.js</a> <br>
-                Posielanie na email je pomocou <a href="https://github.com/PHPMailer/PHPMailer"
+                Animácia pomocou javascript knižnice <a style="color:black;" href="http://fabricjs.com/" class="link">Fabric.js</a> <br>
+                Posielanie na email je pomocou <a style="color:black;" href="https://github.com/PHPMailer/PHPMailer"
                                                   class="link">PHPMailer</a> <br>
-                Konvertovanie HTML do PDF je pomocou <a href="https://ekoopmans.github.io/html2pdf.js/" class="link">html2pdf.js</a>
+                Konvertovanie HTML do PDF je pomocou <a style="color:black;" href="https://ekoopmans.github.io/html2pdf.js/" class="link">html2pdf.js</a>
             </p>
             <p lang="en">
                 Nginx, PHP-FPM, Composer, MySQL, PHPMyAdmin, Octave, Docker, Git <br>
-                The graph was made using javascript library <a href="https://apexcharts.com/" class="link">
+                The graph was made using javascript library <a style="color:black;" href="https://apexcharts.com/" class="link">
                     ApexCharts.js </a> <br>
-                Animation was me using javascript library <a href="http://fabricjs.com/" class="link"> Fabric.js </a>
+                Animation was me using javascript library <a style="color:black;" href="http://fabricjs.com/" class="link"> Fabric.js </a>
                 <br>
-                Emailing was made using <a href="https://github.com/PHPMailer/PHPMailer" class="link"> PHPMailer </a>
+                Emailing was made using <a style="color:black;" href="https://github.com/PHPMailer/PHPMailer" class="link"> PHPMailer </a>
                 <br>
-                Converting HTML to PDF was made using <a href="https://ekoopmans.github.io/html2pdf.js/" class="link">
+                Converting HTML to PDF was made using <a style="color:black;" href="https://ekoopmans.github.io/html2pdf.js/" class="link">
                     html2pdf.js </a>
             </p>
 
@@ -118,40 +118,12 @@ $lg = $_GET['lang'];
                 ready.
                 <br>
             </p>
-            <a href="https://github.com/matej172/php-docker-example/tree/octave" class="link">https://github.com/matej172/php-docker-example/tree/octave</a>
+            <a style="color:black;" href="https://github.com/matej172/php-docker-example/tree/octave" class="link">https://github.com/matej172/php-docker-example/tree/octave</a>
 
             <h2 lang="sk">Náš repozitár</h2>
             <h2 lang="en">Our repository</h2>
-            <a href="https://github.com/Developer-Tommy/webte-final" class="link">https://github.com/Developer-Tommy/webte-final</a>
+            <a style="color:black;" href="https://github.com/Developer-Tommy/webte-final" class="link">https://github.com/Developer-Tommy/webte-final</a>
 
-            <h2 lang="sk">Spustenie</h2>
-            <h2 lang="en">Initialisation</h2>
-            <p lang="sk">
-                Spuste terminál v priečinku, kde sa nachádza repozitár. <strong>../webte-final</strong> <br>
-                Zadajte príkaz: <strong>docker-compose up</strong> <br>
-                Počkajte dokým zbehne build celého projektu a naštartuje sa aplikácia. <br>
-                Otvorte prehliadač a pripojte sa na adresu: <strong>http://localhost:8000/index.php</strong> <br> <br>
-                Pre prácu s databázou je potrebné sa pripojiť na adresu: <strong>http://localhost:8080/</strong> <br>
-                Prihlasovacie údaje do phpMyAdmin: <br>
-            <ul lang="sk">
-                <li><i> Server: </i> <strong> mysql </strong></li>
-                <li><i> Používateľ: </i> <strong> xknapcok </strong></li>
-                <li><i> Heslo: </i> <strong> password </strong></li>
-            </ul>
-            </p>
-            <p lang="en">
-                Start the terminal in the folder where the repository is located. <strong> ../webte-final </strong> <br>
-                Enter the command: <strong> docker-compose up </strong> <br>
-                Wait until the build of the whole project runs and the application starts. <br>
-                Open a browser and connect to: <strong> http://localhost:8000/index.php </strong> <br> <br>
-                To work with the database, you need to connect to: <strong> http://localhost:8080/</strong> <br>
-                The login details for phpMyAdmin: <br>
-            <ul lang="en">
-                <li><i> Server: </i> <strong> mysql </strong></li>
-                <li><i> User: </i> <strong> xknapcok </strong></li>
-                <li><i> Password: </i> <strong> xknapcok </strong></li>
-            </ul>
-            </p>
         <h2 lang="sk">Spustenie</h2>
         <h2 lang="en">Initialisation</h2>
         <p lang="sk">
