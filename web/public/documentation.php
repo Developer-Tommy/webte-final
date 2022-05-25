@@ -104,26 +104,26 @@ $lg = $_GET['lang'];
             Spuste terminál v priečinku, kde sa nachádza repozitár. <strong>../webte-final</strong> <br>
             Zadajte príkaz: <strong>docker-compose up</strong> <br>
             Počkajte dokým zbehne build celého projektu a naštartuje sa aplikácia. <br>
-            Otvorte prehliadač a pripojte sa na adresu: <strong>http://localhost:8000/index.php</strong> <br> <br>
-            Pre prácu s databázou je potrebné sa pripojiť na adresu: <strong>http://localhost:8080/</strong> <br>
+            Otvorte prehliadač a pripojte sa na adresu: <strong>https://site94.webte.fei.stuba.sk/final/</strong> <br> <br>
+            Pre prácu s databázou je potrebné sa pripojiť na adresu: <strong>https://site94.webte.fei.stuba.sk/final/phpmyadmin/</strong> <br>
             Prihlasovacie údaje do phpMyAdmin: <br>
         <ul lang="sk">
             <li><i> Server: </i> <strong> mysql </strong></li>
-            <li><i> Používateľ: </i> <strong> dev </strong></li>
-            <li><i> Heslo: </i> <strong> dev </strong></li>
+            <li><i> Používateľ: </i> <strong> xknapcok </strong></li>
+            <li><i> Heslo: </i> <strong> password </strong></li>
         </ul>
         </p>
         <p lang="en">
             Start the terminal in the folder where the repository is located. <strong> ../webte-final </strong> <br>
             Enter the command: <strong> docker-compose up </strong> <br>
             Wait until the build of the whole project runs and the application starts. <br>
-            Open a browser and connect to: <strong> http://localhost:8000/index.php </strong> <br> <br>
-            To work with the database, you need to connect to: <strong> http://localhost:8080/</strong> <br>
+            Open a browser and connect to: <strong> https://site94.webte.fei.stuba.sk/final/ </strong> <br> <br>
+            To work with the database, you need to connect to: <strong> https://site94.webte.fei.stuba.sk/final/phpmyadmin/</strong> <br>
             The login details for phpMyAdmin: <br>
         <ul lang="en">
             <li><i> Server: </i> <strong> mysql </strong></li>
-            <li><i> User: </i> <strong> dev </strong></li>
-            <li><i> Password: </i> <strong> dev </strong></li>
+            <li><i> User: </i> <strong> xknapcok </strong></li>
+            <li><i> Password: </i> <strong> password </strong></li>
         </ul>
         </p>
 
