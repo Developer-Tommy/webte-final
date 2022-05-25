@@ -192,3 +192,8 @@ table {
 ul, li {
     list-style-type: none;
 }
+.link {
+    color: black;
+    font-size: large;
+    font-weight: bold
+}
